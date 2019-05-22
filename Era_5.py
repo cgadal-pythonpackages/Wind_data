@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-22T10:45:17+02:00
+# @Last modified time: 2019-05-22T16:28:58+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-22T10:45:17+02:00
+# @Last modified time: 2019-05-22T16:28:58+02:00
 
 import cdsapi
 import os
@@ -44,8 +44,8 @@ class Wind_data:
 
     def __init__(self):
         self.name = 'Skeleton_Coast'
-        self.grid_bounds = [[20.5,34.2], [105.3,-3.5]]
-        self.years = [[1999,1,1], [2017,12,31]]
+        self.grid_bounds = None
+        self.years = None
         self.grib_name = None
         self.coordinates = None
 
@@ -56,38 +56,47 @@ class Wind_data:
         self.Uorientation = None
 
 
-    def Getting_wind_data(self,  variable_dic, Nsplit):
+    def Getting_wind_data(self,  variable_dic, Nsplit = 1):
+        if Nsplit < 1:
+            Nsplit = 1
 
-        name = self.name
-        dates = self.years
+        # Defining years for data, either from dic variable
+        dates = np.array([int(i) for i in variable_dic['year']])
+        self.years = [[dates.min(),1,1], [dates.max(),12,31]]
+
+        ### Puting the required area on the ERA5 grid
+        area_wanted = variable_dic['area']
+        area_wanted[0] = area_wanted[0] - (area_wanted[0] - area_ref[0])%(0.25)
+        area_wanted[1] = area_wanted[1] - (area_wanted[1] - area_ref[1])%(0.25)
+        area_wanted[2] = area_wanted[2] - (area_wanted[2] - area_ref[0])%(0.25)
+        area_wanted[3] = area_wanted[3] - (area_wanted[3] - area_ref[1])%(0.25)
+
+        ## updating dic and class obj
+        variable_dic['area'] = area_wanted
+        self.grid_bounds = area_wanted
+        # area = format_area(area_wanted[0]) + '/' + format_area(area_wanted[1])
+        print('Area is :', area_wanted)
+        # print('Grid_bounds =' + str(area))
+        print('Please ensure that the area returned by ECMWF correspond to this Area. Otherwise correct it by modifying self.area afterwards.')
+
         self.Update_grib_name()
 
-
-        area_wanted = variable_dic['area']
-
-
-        if quick_option == True :
-            area_wanted[0][0] = area_wanted[0][0] - (area_wanted[0][0] - area_ref[0])%(0.25)
-            area_wanted[0][1] = area_wanted[0][1] - (area_wanted[0][1] - area_ref[1])%(0.25)
-            area_wanted[1][0] = area_wanted[1][0] - (area_wanted[1][0] - area_ref[0])%(0.25)
-            area_wanted[1][1] = area_wanted[1][1] - (area_wanted[1][1] - area_ref[1])%(0.25)
-
-
-        variable_dic['area'] = area_wanted
-        area = format_area(area_wanted[0]) + '/' + format_area(area_wanted[1])
-        print('Area is :' + area)
-
+        # Spliting request
         dates = np.array([int(i) for i in variable_dic['year']])
         year_list = [list(map(str,j)) for j in np.array_split(dates, Nsplit)]
+        name_file = []
 
         for years in year_list :
-            string = years[0] + ' to ' + years[-1]
+            string = years[0] + 'to' + years[-1]
             print(string)
-            name_file.append('interim_' + string + '_'+ name + '.grib')
+            name_file.append('interim_' + string + '_' + self.name + '.grib')
             c = cdsapi.Client()
 
-            Dic['year'] = years
-            c.retrieve('reanalysis-era5-single-levels', Dic)
+            variable_dic['year'] = years
+            c.retrieve('reanalysis-era5-single-levels', variable_dic, name_file[-1])
+
+        if Nsplit > 1:
+            os.system('cat ' + ''.join([i + ' ' for i in name_file]) + '> ' + self.grib_name)
 
     def Update_grib_name(self):
         self.grib_name = 'interim_' + format_time(self.years[0]) + 'to' + format_time(self.years[1]) + '_'+ self.name + '.grib'
