@@ -2,7 +2,7 @@
 # @Date:   2019-05-22T13:35:05+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T11:00:09+02:00
+# @Last modified time: 2019-05-24T11:08:39+02:00
 
 import sys
 sys.path.append('../')
@@ -45,6 +45,7 @@ Namibia.Extract_UV()
 Namibia.load_wind_data()
 
 ### Writing to binary files for fast futur loading
+Namibia.Save_to_bin()
 
 ### Printing wind and flux roses
 Namibia.Cartesian_to_polar()

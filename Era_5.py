@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T11:06:39+02:00
+# @Last modified time: 2019-05-24T11:08:47+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T11:06:39+02:00
+# @Last modified time: 2019-05-24T11:08:47+02:00
 
 import cdsapi
 import os
@@ -111,12 +111,16 @@ class Wind_data:
         np.save('Uwind.npy', self.Uwind)
         np.save('Vwind.npy', self.Vwind)
 
+    def load_from_bin(self):
+        self.Uwind = np.load('Uwind.npy')
+        self.Vwind = np.load('Vwind.npy')
+
     def Cartesian_to_polar(self):
         self.Ustrength = 0*self.Uwind
         self.Uorientation = 0*self.Uwind
 
         self.Ustrength = np.sqrt(self.Uwind**2 + self.Vwind**2)
-        self.Uorientation[x,y,t] = (atan2(self.Vwind,self.Uwind) % (2*np.pi) )*180/np.pi
+        self.Uorientation = (atan2(self.Vwind,self.Uwind) % (2*np.pi) )*180/np.pi
         # for x in range(self.Uwind.shape[0]):
         #     for y in range(self.Uwind.shape[1]):
         #         for t in range(self.Uwind.shape[2]):
