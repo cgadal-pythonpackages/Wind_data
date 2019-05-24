@@ -3,7 +3,7 @@
 @Date:   2019-05-24T13:49:46+02:00
 @Email:  gadal@ipgp.fr
 @Last modified by:   gadal
-@Last modified time: 2019-05-24T17:22:05+02:00
+@Last modified time: 2019-05-24T17:31:39+02:00
 -->
 
 
@@ -13,7 +13,7 @@
 	<name>Skeleton_Coast.kmz</name>
 	<Style id="sn_target0">
 		<IconStyle>
-			<color>#ff00af</color>
+			<color>#ff00ff</color>
 			<scale>1.2</scale>
 			<Icon>
 				<href>http://maps.google.com/mapfiles/kml/shapes/open-diamond.png</href>
@@ -22,7 +22,7 @@
 	</Style>
 	<Style id="sh_target0">
 		<IconStyle>
-			<color>#ff00af</color>
+			<color>#ff00ff</color>
 			<scale>1.4</scale>
 			<Icon>
 				<href>http://maps.google.com/mapfiles/kml/shapes/open-diamond.png</href>
@@ -41,7 +41,7 @@
 	</StyleMap>
 	<Style id="sh_target">
 		<IconStyle>
-			<color>#ff00af</color>
+			<color>#ff00ff</color>
 			<scale>1.4</scale>
 			<Icon>
 				<href>http://maps.google.com/mapfiles/kml/shapes/open-diamond.png</href>
@@ -60,7 +60,7 @@
 	</StyleMap>
 	<Style id="sn_target">
 		<IconStyle>
-			<color>#ff00af</color>
+			<color>#ff00ff</color>
 			<scale>1.2</scale>
 			<Icon>
 				<href>http://maps.google.com/mapfiles/kml/shapes/open-diamond.png</href>
