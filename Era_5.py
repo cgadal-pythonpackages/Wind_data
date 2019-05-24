@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T11:03:05+02:00
+# @Last modified time: 2019-05-24T11:06:39+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T11:03:05+02:00
+# @Last modified time: 2019-05-24T11:06:39+02:00
 
 import cdsapi
 import os
@@ -106,6 +106,10 @@ class Wind_data:
 
     def Update_grib_name(self):
         self.grib_name = 'interim_' + format_time(self.years[0]) + 'to' + format_time(self.years[1]) + '_'+ self.name + '.grib'
+
+    def Save_to_bin(self):
+        np.save('Uwind.npy', self.Uwind)
+        np.save('Vwind.npy', self.Vwind)
 
     def Cartesian_to_polar(self):
         self.Ustrength = 0*self.Uwind
