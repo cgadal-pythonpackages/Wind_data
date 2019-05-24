@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T18:12:30+02:00
+# @Last modified time: 2019-05-24T18:16:07+02:00
 
 
 
@@ -44,7 +44,7 @@ def flux_rose(Angle, PdfQ_tp, withaxe = 0, place = None, fig = None, color = 'gr
     PdfQ = PdfQ_tp/np.sum(PdfQ_tp)  # normalization
     ######## creating the new pdf with the number of bins
     Lbin = 360/nsector
-    Bins = np.linspace(-Lbin/2, 360-Lbin/2, nsector)
+    Bins = np.linspace(0, 360 - Lbin/2, nsector)
     Qdat = []
     Qangle = []
     precision_flux = 0.001
