@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T13:57:09+02:00
+# @Last modified time: 2019-05-24T14:07:28+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T13:57:09+02:00
+# @Last modified time: 2019-05-24T14:07:28+02:00
 
 import cdsapi
 import os
@@ -148,23 +148,22 @@ class Wind_data:
         #### Destination file
         with open(self.name + '.kml','w') as dest :
 
-
-        	##### Writing the first Part
-        	with open(os.path.join(loc_path,'En_tete_era5.kml'),'r') as entete :
-        		name = self.name
-        		for line in entete:
+            ##### Writing the first Part
+            with open(os.path.join(loc_path,'En_tete_era5.kml'),'r') as entete :
+                name = self.name
+                for line in entete:
                     if ('@' not in line) & ('<!--' not in line) & ('-->' not in line):
-            			if line == '	<name>Skeleton_Coast.kmz</name>'+'\n': ###Premiere occurence
-            				line = ' 	<name>'+name+'.kmz</name>'+'\n'
-            			elif line == '		<name>Skeleton_Coast</name>'+'\n': #### Second occurence
-            				line = ' 	<name>'+name+'</name>'+'\n'
+                        if line == '	<name>Skeleton_Coast.kmz</name>'+'\n': ###Premiere occurence
+                            line = ' 	<name>'+name+'.kmz</name>'+'\n'
+                        elif line == '		<name>Skeleton_Coast</name>'+'\n': #### Second occurence
+                            line = ' 	<name>'+name+'</name>'+'\n'
 
-            			dest.write(line)
+                        dest.write(line)
 
         	##### Writing placemarks
         	with open(os.path.join(loc_path,'placemark.kml'),'r') as placemark, open('Coordinates.txt','r') as Coordinates :
         		i = 0
-        		for Coord in Coordinates:
+                for Coord in Coordinates:
         			i += 1
         			print(i)
         			lat = Coord[:6]
@@ -172,21 +171,19 @@ class Wind_data:
         			print('lon =',lon)
         			print('lat=',lat)
 
-
-        			for line in placemark :
+                    for line in placemark:
                         if ('@' not in line) & ('<!--' not in line) & ('-->' not in line):
-            				if line == '			<name>1</name>'+'\n':
-            					line = '			<name>'+str(i)+'</name>'+'\n'
-            				if line == '				<coordinates>11.25,-17.25,0</coordinates>'+'\n':
-            					line = '				<coordinates>'+lon+','+lat+',0</coordinates>'+'\n'
-            				dest.write(line)
-        			placemark.seek(0,0)
-
+                            if line == '			<name>1</name>'+'\n':
+                                line = '			<name>'+str(i)+'</name>'+'\n'
+                            if line == '				<coordinates>11.25,-17.25,0</coordinates>'+'\n':
+                                line = '				<coordinates>'+lon+','+lat+',0</coordinates>'+'\n'
+                            dest.write(line)
+                        placemark.seek(0,0)
 
         	##### Wrtiting closure
         	with open(os.path.join(loc_path,'bottom_page.kml'),'r') as bottom :
         		dest.write(bottom.read())
-
+                
 
     def Extract_UV(self, path_to_wgrib = None):
         if path_to_wgrib != None:
