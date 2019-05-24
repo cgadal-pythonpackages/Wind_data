@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-17T14:49:04+02:00
+# @Last modified time: 2019-05-24T17:48:06+02:00
 
 
 
@@ -34,25 +34,25 @@ def wind_rose(Angle, Intensity, place = None, fig = None, **kwargs):
     bars = ax.bar(Angle, Intensity,  **kwargs)
     ax.set_legend()
 
-def flux_rose(Angle,PdfQ, withaxe = 0, place = None, fig = None, color = 'green', nsector = 20, opening = 0.6):
+def flux_rose(Angle, PdfQ_tp, withaxe = 0, place = None, fig = None, color = 'green', nsector = 20, opening = 0.6):
     #### pdfQ flux distribution
     #### Corresponding angles in degree
     #### N bin nuber of bins for the rose
     #### withaxe : if 0, removes everything except the bars
     #### place :: where on the figure
 
-
+    PdfQ = PdfQ_tp/np.sum(PdfQ_tp)  # normalization
     ######## creating the new pdf with the number of bins
     Lbin = 360/nsector
     Bins = np.linspace(Lbin/2,360-Lbin/2,nsector)
     Qdat = []
     Qangle = []
-    magnitude_exp = np.log10(np.min(PdfQ[PdfQ > 0]))
+    precision_flux = 0.001
 
     for n in range(len(Bins)) :
         ind = np.argwhere((Angle >= Bins[n] - Lbin/2) & (Angle < Bins[n] + Lbin/2))
-        integral = int(sum(PdfQ[ind])*10**(-magnitude_exp+1))
-        for i in range(integral):
+        integral = int(sum(PdfQ[ind]))
+        for i in range(integral/precision_flux):
             Qangle.append(Bins[n])
             Qdat.append(1)
     Qangle = np.array(Qangle)
