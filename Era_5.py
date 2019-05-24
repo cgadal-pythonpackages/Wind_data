@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T14:07:28+02:00
+# @Last modified time: 2019-05-24T14:11:21+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T14:07:28+02:00
+# @Last modified time: 2019-05-24T14:11:21+02:00
 
 import cdsapi
 import os
@@ -160,9 +160,9 @@ class Wind_data:
 
                         dest.write(line)
 
-        	##### Writing placemarks
-        	with open(os.path.join(loc_path,'placemark.kml'),'r') as placemark, open('Coordinates.txt','r') as Coordinates :
-        		i = 0
+            ##### Writing placemarks
+            with open(os.path.join(loc_path,'placemark.kml'),'r') as placemark, open('Coordinates.txt','r') as Coordinates :
+                i = 0
                 for Coord in Coordinates:
         			i += 1
         			print(i)
@@ -180,10 +180,10 @@ class Wind_data:
                             dest.write(line)
                         placemark.seek(0,0)
 
-        	##### Wrtiting closure
-        	with open(os.path.join(loc_path,'bottom_page.kml'),'r') as bottom :
-        		dest.write(bottom.read())
-                
+            ##### Wrtiting closure
+            with open(os.path.join(loc_path,'bottom_page.kml'),'r') as bottom :
+                dest.write(bottom.read())
+
 
     def Extract_UV(self, path_to_wgrib = None):
         if path_to_wgrib != None:
