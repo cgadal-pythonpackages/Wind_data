@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T16:56:52+02:00
+# @Last modified time: 2019-05-24T17:07:24+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T16:56:52+02:00
+# @Last modified time: 2019-05-24T17:07:24+02:00
 
 import cdsapi
 import os
@@ -142,7 +142,7 @@ class Wind_data:
                     k = k + 1
 
     def Write_coordinates(self):
-        np.savetxt('Coordinates.txt', self.coordinates, fmt='%2.4f')
+        np.savetxt('Coordinates.txt', self.coordinates, fmt='%+2.4f')
 
     def Create_KMZ(self):
         loc_path = os.path.join(os.path.dirname(__file__), 'src')
@@ -166,8 +166,8 @@ class Wind_data:
                 for Coord in Coordinates:
                     i += 1
                     print(i)
-                    lat = Coord[:6]
-                    lon = Coord[7:]
+                    lat = Coord[:7]
+                    lon = Coord[9:]
                     print('lon =',lon)
                     print('lat=',lat)
 
