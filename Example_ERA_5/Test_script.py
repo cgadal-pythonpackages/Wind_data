@@ -2,7 +2,7 @@
 # @Date:   2019-05-22T13:35:05+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-22T16:34:09+02:00
+# @Last modified time: 2019-05-22T16:54:16+02:00
 
 import sys
 sys.path.append('../')
@@ -11,7 +11,7 @@ import numpy as np
 
 ########### CReating wind data object
 Namibia = Era5.Wind_data()
-Namibia.name = 'Namibia'
+Namibia.name = 'Namibiascreen -r '
 
 ########## Defining request
 Nsplit = 1  # Spliting request into 5 part

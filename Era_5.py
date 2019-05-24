@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-22T16:28:58+02:00
+# @Last modified time: 2019-05-24T10:49:54+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-22T16:28:58+02:00
+# @Last modified time: 2019-05-24T10:49:54+02:00
 
 import cdsapi
 import os
@@ -59,6 +59,12 @@ class Wind_data:
     def Getting_wind_data(self,  variable_dic, Nsplit = 1):
         if Nsplit < 1:
             Nsplit = 1
+
+        Nitems = len(variable_dic['variable']) * (365.25 * len(variable_dic['month'])/12 * len(variable_dic['day'])/31) \
+                * len(variable_dic['hour']) * len(variable_dic['year'])
+        if Nfields/Nsplit > 120000:
+            print('Request too large. Setting Nsplit =', Nitems/120000)
+            Nsplit = Nitems/120000
 
         # Defining years for data, either from dic variable
         dates = np.array([int(i) for i in variable_dic['year']])
@@ -116,8 +122,8 @@ class Wind_data:
 
 
     def Update_coordinates(self):
-        lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - 0.25, -0.25)
-        lon = np.arange(self.grid_bounds[0][1], self.grid_bounds[1][1] + 0.25, 0.25)
+        lat = np.arange(self.grid_bounds[0], self.grid_bounds[2] - 0.25, -0.25)
+        lon = np.arange(self.grid_bounds[1], self.grid_bounds[3] + 0.25, 0.25)
         self.coordinates = np.zeros((lat.size*lon.size,2))
         k = 0
         for i in range(lat.size):
