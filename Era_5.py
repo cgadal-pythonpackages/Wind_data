@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T19:05:44+02:00
+# @Last modified time: 2019-05-24T19:06:56+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T19:05:44+02:00
+# @Last modified time: 2019-05-24T19:06:56+02:00
 
 import cdsapi
 import os
@@ -64,7 +64,7 @@ class Wind_data:
                 * len(variable_dic['time']) * len(variable_dic['year'])
         if Nitems/Nsplit > 120000:
             print('Request too large. Setting Nsplit =', Nitems/120000)
-            Nsplit = Nitems/120000
+            Nsplit = round(Nitems/120000)
 
         # Defining years for data, either from dic variable
         dates = np.array([int(i) for i in variable_dic['year']])
