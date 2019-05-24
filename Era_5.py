@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T17:07:24+02:00
+# @Last modified time: 2019-05-24T17:10:33+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T17:07:24+02:00
+# @Last modified time: 2019-05-24T17:10:33+02:00
 
 import cdsapi
 import os
@@ -152,7 +152,7 @@ class Wind_data:
             ##### Writing the first Part
             with open(os.path.join(loc_path,'En_tete_era5.kml'),'r') as entete :
                 name = self.name
-                for line in islice(entete, 7, None):
+                for line in islice(entete, 10, None):
                     if line == '	<name>Skeleton_Coast.kmz</name>'+'\n': ###Premiere occurence
                         line = ' 	<name>'+name+'.kmz</name>'+'\n'
                     elif line == '		<name>Skeleton_Coast</name>'+'\n': #### Second occurence
@@ -166,7 +166,7 @@ class Wind_data:
                 for Coord in Coordinates:
                     i += 1
                     print(i)
-                    lat = Coord[:7]
+                    lat = Coord[:8]
                     lon = Coord[9:]
                     print('lon =',lon)
                     print('lat=',lat)
