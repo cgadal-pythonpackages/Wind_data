@@ -2,7 +2,7 @@
 # @Date:   2019-05-22T13:35:05+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-22T16:54:16+02:00
+# @Last modified time: 2019-05-24T11:00:09+02:00
 
 import sys
 sys.path.append('../')
@@ -11,7 +11,7 @@ import numpy as np
 
 ########### CReating wind data object
 Namibia = Era5.Wind_data()
-Namibia.name = 'Namibiascreen -r '
+Namibia.name = 'Namibia'
 
 ########## Defining request
 Nsplit = 1  # Spliting request into 5 part
@@ -35,3 +35,16 @@ variable_dic = {'product_type':'reanalysis',
 
 ### launching request
 Namibia.Getting_wind_data(variable_dic, Nsplit)
+
+### Writing place specifications
+Namibia.Write_spec('info.txt')
+
+### Extracting data
+Namibia.Update_grib_name()
+Namibia.Extract_UV()
+Namibia.load_wind_data()
+
+### Writing to binary files for fast futur loading
+
+### Printing wind and flux roses
+Namibia.Cartesian_to_polar()
