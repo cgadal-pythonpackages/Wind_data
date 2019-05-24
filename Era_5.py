@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T14:11:21+02:00
+# @Last modified time: 2019-05-24T14:13:08+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T14:11:21+02:00
+# @Last modified time: 2019-05-24T14:13:08+02:00
 
 import cdsapi
 import os
@@ -164,12 +164,12 @@ class Wind_data:
             with open(os.path.join(loc_path,'placemark.kml'),'r') as placemark, open('Coordinates.txt','r') as Coordinates :
                 i = 0
                 for Coord in Coordinates:
-        			i += 1
-        			print(i)
-        			lat = Coord[:6]
-        			lon = Coord[7:]
-        			print('lon =',lon)
-        			print('lat=',lat)
+                    i += 1
+                    print(i)
+                    lat = Coord[:6]
+                    lon = Coord[7:]
+                    print('lon =',lon)
+                    print('lat=',lat)
 
                     for line in placemark:
                         if ('@' not in line) & ('<!--' not in line) & ('-->' not in line):
