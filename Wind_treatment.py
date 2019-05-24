@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T17:50:30+02:00
+# @Last modified time: 2019-05-24T17:52:37+02:00
 
 
 
@@ -65,7 +65,7 @@ def flux_rose(Angle, PdfQ_tp, withaxe = 0, place = None, fig = None, color = 'gr
     bars = ax.bar(Qangle, Qdat, color = color, nsector = nsector, opening = opening)
     ax.set_rmin(0)
     plt.plot(0,0,'.', color = 'w', zorder = 100, markersize = 4)
-    ax.set_yticklabels(np.array([float(i.get_text()) for i in ax.get_yticklabels()])/10**(-magnitude_exp+1))
+    ax.set_yticklabels(np.array([float(i.get_text()) for i in ax.get_yticklabels()])*precision_flux)
     if withaxe != 1:
         ax.set_yticks([])
 
