@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T11:15:35+02:00
+# @Last modified time: 2019-05-24T11:36:02+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T11:15:35+02:00
+# @Last modified time: 2019-05-24T11:36:02+02:00
 
 import cdsapi
 import os
@@ -185,16 +185,15 @@ class Wind_data:
         	with open(os.path.join(loc_path,'bottom_page.txt'),'r') as bottom :
         		dest.write(bottom.read())
 
-
-        if Nsplit > 1:
-            date = format_time(dates[0]) + '/to/' + format_time(dates[1])
+    #     if Nsplit > 1:
+    #         date = format_time(dates[0]) + '/to/' + format_time(dates[1])
+    # #
+    #         os.system('cat ' + ''.join([i + ' ' for i in name_file]) + '> ' + self.grib_name)
     #
-            os.system('cat ' + ''.join([i + ' ' for i in name_file]) + '> ' + self.grib_name)
-
-        if quick_option == True:
-            self.grid_bounds = area_wanted
-            print('Grid_bounds =' + str(area))
-            print('quick option has been used. Please ensure that the area returned by ECMWF correspond to the grid_bounds. Otherwise correct it by modifying self.grid_bounds.')
+    #     if quick_option == True:
+    #         self.grid_bounds = area_wanted
+    #         print('Grid_bounds =' + str(area))
+    #         print('quick option has been used. Please ensure that the area returned by ECMWF correspond to the grid_bounds. Otherwise correct it by modifying self.grid_bounds.')
 
 
     def Extract_UV(self, path_to_wgrib = None):
@@ -265,7 +264,7 @@ class Wind_data:
                 print('Point number' + str(i))
                 pdfQ, Angle, _  = PDF_flux(np.c_[self.Uorientation[x,y,:],self.Ustrength[x,y,:]], grain_size)
                 fig = plt.figure()
-                flux_rose(Angle[:-1],pdfQ, fig = fig, **kwargs)
+                flux_rose(Angle[:-1], pdfQ, fig = fig, **kwargs)
                 plt.savefig(dir + '/flux_rose_'+ format_string.format(i+1) + ext)
                 plt.close('all')
                 i = i + 1
