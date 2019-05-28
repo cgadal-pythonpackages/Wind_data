@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-28T13:37:00+02:00
+# @Last modified time: 2019-05-28T13:48:55+02:00
 
 
 
@@ -51,7 +51,7 @@ def flux_rose(Angle, PdfQ_tp, withaxe = 0, place = None, fig = None, color = 'gr
 
     for n in range(len(Bins)) :
         ind = np.argwhere((Angle >= Bins[n] - Lbin/2) & (Angle < Bins[n] + Lbin/2))
-        integral = int(nansum(PdfQ[ind])/precision_flux)
+        integral = int(np.nansum(PdfQ[ind])/precision_flux)
         for i in range(integral):
             Qangle.append(Bins[n])
             Qdat.append(1)
