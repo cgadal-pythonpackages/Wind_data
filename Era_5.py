@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-27T14:40:31+02:00
+# @Last modified time: 2019-05-28T11:46:28+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-27T14:40:31+02:00
+# @Last modified time: 2019-05-28T11:46:28+02:00
 
 import cdsapi
 import os
@@ -63,8 +63,9 @@ class Wind_data:
         Nitems = len(variable_dic['variable']) * (365.25 * len(variable_dic['month'])/12 * len(variable_dic['day'])/31) \
                 * len(variable_dic['time']) * len(variable_dic['year'])
         if Nitems/Nsplit > 120000:
-            print('Request too large. Setting Nsplit =', Nitems/120000)
             Nsplit = round(Nitems/120000) + 1
+            print('Request too large. Setting Nsplit =', Nsplit)
+
 
         # Defining years for data, either from dic variable
         dates = np.array([int(i) for i in variable_dic['year']])
@@ -234,6 +235,7 @@ class Wind_data:
         for y in range(self.Uwind.shape[1]):
             for x in range(self.Uwind.shape[0]):
                 print('Point number' + str(i))
+                plt.ioff()
                 fig = plt.figure()
                 wind_rose(self.Uorientation[x,y,:],self.Ustrength[x,y,:], fig = fig, **kwargs)
                 plt.savefig(dir + '/wind_rose_'+ format_string.format(i+1) + ext)
@@ -251,6 +253,7 @@ class Wind_data:
             for x in range(self.Uwind.shape[0]):
                 print('Point number' + str(i))
                 pdfQ, Angle, _  = PDF_flux(np.c_[self.Uorientation[x,y,:],self.Ustrength[x,y,:]], grain_size)
+                plt.ioff()
                 fig = plt.figure()
                 flux_rose(Angle[:-1], pdfQ, fig = fig, **kwargs)
                 plt.savefig(dir + '/flux_rose_'+ format_string.format(i+1) + ext)

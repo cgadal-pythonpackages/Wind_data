@@ -2,7 +2,7 @@
 # @Date:   2019-05-22T13:35:05+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-24T18:48:51+02:00
+# @Last modified time: 2019-05-28T11:02:22+02:00
 
 import sys
 sys.path.append('../')
@@ -50,9 +50,12 @@ Namibia.Save_to_bin()
 ### Printing wind and flux roses
 Namibia.Cartesian_to_polar()
 Namibia.Write_wind_rose('wind_rose', ext = '.pdf',  normed=True, opening=1, edgecolor='k', nsector = 20, bins = 6)
-Namibia.Write_flux_rose('flux_rose', ext = '.pdf', withaxe = 1, opening = 0.9)
+Namibia.Write_flux_rose('flux_rose', ext = '.pdf', withaxe = 1, opening = 0.9, nsector = 30)
 
 ### Creating google earth points
 Namibia.Update_coordinates()
 Namibia.Write_coordinates()
 Namibia.Create_KMZ()
+
+### Writing wind data by point over grid
+Namibia.Write_wind_data('wind_data')
