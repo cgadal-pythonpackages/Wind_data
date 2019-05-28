@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-28T13:48:55+02:00
+# @Last modified time: 2019-05-28T14:17:04+02:00
 
 
 
@@ -62,12 +62,13 @@ def flux_rose(Angle, PdfQ_tp, withaxe = 0, place = None, fig = None, color = 'gr
         ax.set_position(place, which='both')
     # bars = ax.bar(Angle, Intensity, normed=True, opening=1, edgecolor='k', nsector = Nsector, bins = Nbin, cmap = cmap)
     Qangle = (90 - Qangle)%360
-    bars = ax.bar(Qangle, Qdat, color = color, nsector = nsector, opening = opening)
-    ax.set_rmin(0)
-    plt.plot(0,0,'.', color = 'w', zorder = 100, markersize = 4)
-    ax.set_yticklabels(['{:.1f}'.format(float(i.get_text())*precision_flux) for i in ax.get_yticklabels()])
-    if withaxe != 1:
-        ax.set_yticks([])
+    if Qangle.size !=0:
+        bars = ax.bar(Qangle, Qdat, color = color, nsector = nsector, opening = opening)
+        ax.set_rmin(0)
+        plt.plot(0,0,'.', color = 'w', zorder = 100, markersize = 4)
+        ax.set_yticklabels(['{:.1f}'.format(float(i.get_text())*precision_flux) for i in ax.get_yticklabels()])
+        if withaxe != 1:
+            ax.set_yticks([])
 
 def PDF_flux(wind_data, grain_size):
 
