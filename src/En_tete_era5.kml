@@ -3,14 +3,14 @@
 @Date:   2019-05-24T13:49:46+02:00
 @Email:  gadal@ipgp.fr
 @Last modified by:   gadal
-@Last modified time: 2019-05-28T17:13:26+02:00
+@Last modified time: 2019-05-28T17:18:16+02:00
 -->
 
 
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
 <Document>
-	<name>Skeleton_Coast.kml</name>
+	<name>Skeleton_Coast.kmz</name>
 	<Style id="s_ylw-pushpin_hl">
 		<IconStyle>
 			<color>ffff08ce</color>
