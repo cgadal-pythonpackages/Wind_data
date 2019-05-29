@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-28T11:46:28+02:00
+# @Last modified time: 2019-05-29T18:01:55+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-28T11:46:28+02:00
+# @Last modified time: 2019-05-29T18:01:55+02:00
 
 import cdsapi
 import os
@@ -223,7 +223,7 @@ class Wind_data:
         for y in range(self.Uwind.shape[1]):
             for x in range(self.Uwind.shape[0]):
                 print('x = ' + str(x) +', y = ' + str(y) + ', Point number' + str(i))
-                np.savetxt(dir + '/' + pattern + format_string.format(i+1) +'.txt', np.c_[self.Uorientation[x,y,:], self.Ustrength[x,y,:]])
+                np.savetxt(dir + '/' + pattern + format_string.format(i+1) +'.txt', np.c_[self.Uorientation[x,y,:], self.Ustrength[x,y,:]], fmt ='%1.5e')
                 i = i + 1
 
     def Write_wind_rose(self, dir, ext = '.pdf', **kwargs):
