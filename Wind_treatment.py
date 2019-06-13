@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-28T14:17:04+02:00
+# @Last modified time: 2019-06-12T15:04:50+02:00
 
 
 
@@ -70,26 +70,24 @@ def flux_rose(Angle, PdfQ_tp, withaxe = 0, place = None, fig = None, color = 'gr
         if withaxe != 1:
             ax.set_yticks([])
 
-def PDF_flux(wind_data, grain_size):
+def PDF_flux(wind_data, grain_size, z_0 = 1e-3, z = 10, rhoair = 1.293, rhosed = 2.55e3,   ):
 
     # Data : first column are directions, second column are speed
     # d : grain diameter
     # dt : step of the time serie
+    # z_0 = 1e-3 : Roughness of the sediment layer. (meters)
+    # z = 10  : Height of wind speed measurment.
+    # rhoair = 1.293 : air density [kg/m^3].
+    # rhosed = 2.55e3 : sediment density [kg/m^3].
 
     direction = wind_data[:,0]
     speed = wind_data[:,1]
 
     kappa = 0.4                  # Von Karman constant.
     # d = 180e-6;                   % grain diameter [m].
-    z_0 = 1e-3                   # Roughness of the sediment layer. (meters)
-    z = 10                    # Height of wind speed measurment.
     u = speed*kappa/np.log(z/z_0)      # Shear velocity  [m/s] fron the law of the wall
-    rhoair = 1.293               # air density [kg/m^3].
-    rhosed = 2.55e3              # sediment density [kg/m^3].
     g = 9.81                     # Gravitational acceleration [m/s^{-2}].
     ut = 0.1 * np.sqrt((rhosed-rhoair)*g*grain_size/rhoair)
-    # ut = 0.15;                    % Shear velocity threshold for motion inception [m/s].
-    # Lsat = 2.2 *(rhosed/rhoair)*d ; % saturation length
 
     ######## flux
     # qs = np.maximum(0,((ut*rhoair)/(rhosed *grain_size))*(u**2-ut**2))

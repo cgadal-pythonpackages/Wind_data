@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-22T13:55:22+02:00
+# @Last modified time: 2019-06-13T14:26:58+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -86,7 +86,7 @@ class Wind_data:
 
 
         	##### Writing the first Part
-        	with open(os.path.join(loc_path,'En_tete.txt'),'r') as entete :
+        	with open(os.path.join(loc_path,'En_tete.kml'),'r') as entete :
         		name = self.name
         		for line in entete:
         			if line == '	<name>Skeleton_Coast.kmz</name>'+'\n': ###Premiere occurence
@@ -97,7 +97,7 @@ class Wind_data:
         			dest.write(line)
 
         	##### Writing placemarks
-        	with open(os.path.join(loc_path,'placemark.txt'),'r') as placemark, open('Coordinates.txt','r') as Coordinates :
+        	with open(os.path.join(loc_path,'placemark.kml'),'r') as placemark, open('Coordinates.txt','r') as Coordinates :
         		i = 0
         		for Coord in Coordinates:
         			i += 1
@@ -118,7 +118,7 @@ class Wind_data:
 
 
         	##### Wrtiting closure
-        	with open(os.path.join(loc_path,'bottom_page.txt'),'r') as bottom :
+        	with open(os.path.join(loc_path,'bottom_page.kml'),'r') as bottom :
         		dest.write(bottom.read())
 
     def Getting_wind_data(self, area_wanted, Nsplit, quick_option = True):
