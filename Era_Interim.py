@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-06-13T14:35:55+02:00
+# @Last modified time: 2019-06-13T14:38:22+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -10,7 +10,7 @@ import numpy as np
 from math import atan2
 import matplotlib.pyplot as plt
 from .Wind_treatment import wind_rose, flux_rose, PDF_flux
-# from . import Wind_treatment
+from itertools import islice
 
 area_ref = [-17.25,11.25]
 
