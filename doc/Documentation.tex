@@ -12,11 +12,11 @@
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{xcolor}
-\usepackage{changepage} 
+\usepackage{changepage}
 \usepackage{minted}
 
 \usepackage[english]{babel}
-\usepackage[utf8]{inputenc}  
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
 
@@ -49,7 +49,7 @@ Arguments: {#2}
 \end{myenv}
 \vspace*{0.4 cm}}
 
-\newcommand{\Argument}[3]{\noindent 
+\newcommand{\Argument}[3]{\noindent
 \textbf{#1}, \textit{#2}, {#3}}
 
 
@@ -58,7 +58,7 @@ Arguments: {#2}
 \title{Wind\_data python library}
 
 \begin{document}
-\maketitle	
+\maketitle
 
 
 The library simplify the downloading and the treatment of ERA-Interim data. It has been optimised for the study of $10$-meters wind velocities, but can be easily adapted to other quantities with few modifications. For now, the reading of the grid files only works under linux. Other functions are pure python and can be used under any Python3 environment.
@@ -73,15 +73,16 @@ This library requires any version of Python 3. The following packages are used:
 \begin{itemize}
 \item numpy
 \item matplotlib
-\item os 
+\item os
 \item windrose (see \url{https://pypi.org/project/windrose/})
 \item ecmwfapi (see \url{https://confluence.ecmwf.int//display/WEBAPI/Access+ECMWF+Public+Datasets#AccessECMWFPublicDatasets-python})
 \end{itemize}
+They can all be installed using \textit{pip3 install package}.
 
 \subsection{wgrib}
 Grib files are read by the 'wgrib' program that can be found here \url{http://www.cpc.ncep.noaa.gov/products/wesley/wgrib.html} with full documentation.
 
-\section{The Era\_Interim library and the class Wind\_data}
+\section{The Era\_Interim library}
 The purpose of the class wind\_data is to simplify the treatment of the ERA Interim wind data.
 
 \subsection{Attributes}
@@ -181,9 +182,24 @@ The followings are 'None', and can be set afterwards by using functions defined 
 \item \Argument{fname}{string}{.txt file}
 \end{itemize}}{Return the length of a file.}
 
+\section{The Era\_5 library}
+I didn't have the time to write the documentation for the Era5 library, such that I suggest to stick as much as possible to the given example.
+Most of the functions are strictly the same for Era5 and Era\_interim. The main changes are:
+\begin{itemize}
+	\item you need to create an account here, and log in : \\
+	\url{https://cds.climate.copernicus.eu/user/register?destination=%2F%23!%2Fhome}.
+	\item you need to install the python package \textit{cdsapi} instead of \textit{ecmwfapi} : \\
+	\url{https://cds.climate.copernicus.eu/api-how-to} (replace any python by python3)
+	\item you need to setup the key: \\
+	\url{https://cds.climate.copernicus.eu/api-how-to}
+	\item The function self.Getting\_wind\_data(), that send requests to the server to download the data, takes now as argument a dictionary with everything you can specify (dates, area, variables, etc ..). Please check the example script. You can generate example of scripts, and therefore example of dictionaries here : \\
+	\url{https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=form} with 'Show API request'.
+	\item General documentation for Era5 is available here: \\
+	\url{https://confluence.ecmwf.int/display/CKB/How+to+download+ERA5}.
+\end{itemize}
 
 \section{Wind\_treament library}
-This library contains the function used for the treatment of wind data. The functions plotting the roses come from the windrose python package. Therefore, they are highly customizable providing a bit of reading their documentation, and some modifications of the code of these functions. 
+This library contains the function used for the treatment of wind data. The functions plotting the roses come from the windrose python package. Therefore, they are highly customizable providing a bit of reading their documentation, and some modifications of the code of these functions.
 
 \Function{wind\_rose(Angle,Intensity, place, fig, **kwargs)}{
 \begin{itemize}
@@ -191,7 +207,7 @@ This library contains the function used for the treatment of wind data. The func
 	\item \Argument{Intensity}{1D array like}{Strength of the wind}
 	\item \Argument{fig}{matplotlib figure}{Matplotlib figure in which the wind rose is drawn. Optional. Default is None.}
 	\item \Argument{place}{list of float}{Setting the wind rose axe position in the figure. Of the form [left, bottom, width, height], in figure coordinates.}
-	
+
 	\item \Argument{**kwargs}{multiple}{All optional arguments that can be passed to customize the wind rose plot, as 'cmap', 'bins', etc . Detail can be found in the windrose project website by downloading the manual.}
 \end{itemize}
 }{Write a wind rose from a wind time series using  wind orientation and strength.}
@@ -219,8 +235,13 @@ This library contains the function used for the treatment of wind data. The func
 
 
 \section{Minimal examples}
-\inputminted{python}{example1.py}
+\subsection{Era\_interim}
 
+\inputminted{python}{../Examples/example_Era_interim.py}
+
+\subsection{Era\_5}
+
+\inputminted{python}{../Examples/example_Era_5.py}
 
 
 

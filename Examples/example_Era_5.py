@@ -2,7 +2,7 @@
 # @Date:   2019-05-22T13:35:05+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-28T11:02:22+02:00
+# @Last modified time: 2019-06-14T14:28:08+02:00
 
 import sys
 sys.path.append('../')
@@ -13,8 +13,8 @@ import numpy as np
 Namibia = Era5.Wind_data()
 Namibia.name = 'Namibia'
 
-########## Defining request
-Nsplit = 1  # Spliting request into 5 part
+########## Defining request (optional in theory but ..)
+#Nsplit = 8  # Spliting request into Nsplit part. Automatically set by the function that send the requests (in theory).
 
 ### Specifying request
 variables = ['10m_u_component_of_wind','10m_v_component_of_wind']  ## variables
@@ -36,12 +36,12 @@ variable_dic = {'product_type':'reanalysis',
 ### launching request
 Namibia.Getting_wind_data(variable_dic, Nsplit)
 
-### Writing place specifications
+### Writing place specifications (ALWAYS call this function just after the requests)
 Namibia.Write_spec('info.txt')
 
-### Extracting data
+### Extracting data ### checl that your path to wgrib is correct
 Namibia.Update_grib_name()
-Namibia.Extract_UV()
+Namibia.Extract_UV(path_to_wgrib = '/home/gadal/Bin_local/')
 Namibia.load_wind_data()
 
 ### Writing to binary files for fast futur loading
@@ -57,5 +57,19 @@ Namibia.Update_coordinates()
 Namibia.Write_coordinates()
 Namibia.Create_KMZ()
 
+#####################################################################
+#####################################################################
+# Imagine that you forgot to do this on the first script, but you want to do it later.
+# You can write another script and just call:
+Namibia = Era5.Wind_data()
+
+## Loading specifications, in case you to start the script here with data already downloaded.
+Namibia.load_spec('info.txt')
+
+# Loading from binary files: If you want to load the data later, much quicker with binary files.
+Namibia.load_from_bin()
+
 ### Writing wind data by point over grid
+Namibia.Update_coordinates()
+Namibia.Cartesian_to_polar()
 Namibia.Write_wind_data('wind_data')

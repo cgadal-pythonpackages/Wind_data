@@ -2,9 +2,12 @@
 \BOOKMARK [2][-]{subsection.1.1}{ECMWF}{section.1}% 2
 \BOOKMARK [2][-]{subsection.1.2}{Python}{section.1}% 3
 \BOOKMARK [2][-]{subsection.1.3}{wgrib}{section.1}% 4
-\BOOKMARK [1][-]{section.2}{The Era\137Interim library and the class Wind\137data}{}% 5
+\BOOKMARK [1][-]{section.2}{The Era\137Interim library}{}% 5
 \BOOKMARK [2][-]{subsection.2.1}{Attributes}{section.2}% 6
 \BOOKMARK [2][-]{subsection.2.2}{Class functions}{section.2}% 7
 \BOOKMARK [2][-]{subsection.2.3}{Other functions}{section.2}% 8
-\BOOKMARK [1][-]{section.3}{Wind\137treament library}{}% 9
-\BOOKMARK [1][-]{section.4}{Minimal examples}{}% 10
+\BOOKMARK [1][-]{section.3}{The Era\1375 library}{}% 9
+\BOOKMARK [1][-]{section.4}{Wind\137treament library}{}% 10
+\BOOKMARK [1][-]{section.5}{Minimal examples}{}% 11
+\BOOKMARK [2][-]{subsection.5.1}{Era\137interim}{section.5}% 12
+\BOOKMARK [2][-]{subsection.5.2}{Era\1375}{section.5}% 13

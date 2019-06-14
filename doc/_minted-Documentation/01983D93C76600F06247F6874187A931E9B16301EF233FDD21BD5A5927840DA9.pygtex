@@ -1,0 +1,77 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} @Author: gadal}
+\PYG{c+c1}{\PYGZsh{} @Date:   2019\PYGZhy{}05\PYGZhy{}22T13:35:05+02:00}
+\PYG{c+c1}{\PYGZsh{} @Email:  gadal@ipgp.fr}
+\PYG{c+c1}{\PYGZsh{} @Last modified by:   gadal}
+\PYG{c+c1}{\PYGZsh{} @Last modified time: 2019\PYGZhy{}06\PYGZhy{}14T14:28:08+02:00}
+
+\PYG{k+kn}{import} \PYG{n+nn}{sys}
+\PYG{n}{sys}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}../\PYGZsq{}}\PYG{p}{)}
+\PYG{k+kn}{import} \PYG{n+nn}{Wind\PYGZus{}data.Era\PYGZus{}5} \PYG{k+kn}{as} \PYG{n+nn}{Era5}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k+kn}{as} \PYG{n+nn}{np}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} CReating wind data object}
+\PYG{n}{Namibia} \PYG{o}{=} \PYG{n}{Era5}\PYG{o}{.}\PYG{n}{Wind\PYGZus{}data}\PYG{p}{()}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{name} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}Namibia\PYGZsq{}}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Defining request (optional in theory but ..)}
+\PYG{c+c1}{\PYGZsh{}Nsplit = 8  \PYGZsh{} Spliting request into Nsplit part. Automatically set by the function that send the requests (in theory).}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Specifying request}
+\PYG{n}{variables} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}10m\PYGZus{}u\PYGZus{}component\PYGZus{}of\PYGZus{}wind\PYGZsq{}}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}10m\PYGZus{}v\PYGZus{}component\PYGZus{}of\PYGZus{}wind\PYGZsq{}}\PYG{p}{]}  \PYG{c+c1}{\PYGZsh{}\PYGZsh{} variables}
+\PYG{n}{year} \PYG{o}{=} \PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{l+m+mi}{1979}\PYG{p}{,} \PYG{l+m+mi}{2020}\PYG{p}{)]}   \PYG{c+c1}{\PYGZsh{}\PYGZsh{} years}
+\PYG{n}{month} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}\PYGZob{}:02d\PYGZcb{}\PYGZsq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{13}\PYG{p}{)]} \PYG{c+c1}{\PYGZsh{}\PYGZsh{} months}
+\PYG{n}{day} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}\PYGZob{}:02d\PYGZcb{}\PYGZsq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{32}\PYG{p}{)]} \PYG{c+c1}{\PYGZsh{}\PYGZsh{} days}
+\PYG{n}{time} \PYG{o}{=}  \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}\PYGZob{}:02d\PYGZcb{}\PYGZsq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)} \PYG{o}{+}\PYG{l+s+s1}{\PYGZsq{}:00\PYGZsq{}} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{24}\PYG{p}{)]} \PYG{c+c1}{\PYGZsh{}\PYGZsh{} hours}
+\PYG{n}{area} \PYG{o}{=} \PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{22.5}\PYG{p}{,} \PYG{l+m+mf}{14.25}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{27.75}\PYG{p}{,} \PYG{l+m+mf}{16.5}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{}\PYGZsh{} geographical subset}
+
+\PYG{n}{variable\PYGZus{}dic} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}product\PYGZus{}type\PYGZsq{}}\PYG{p}{:}\PYG{l+s+s1}{\PYGZsq{}reanalysis\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}format\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}grib\PYGZsq{}}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}variable\PYGZsq{}}\PYG{p}{:} \PYG{n}{variables}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}year\PYGZsq{}}\PYG{p}{:} \PYG{n}{year}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}month\PYGZsq{}}\PYG{p}{:} \PYG{n}{month}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}day\PYGZsq{}}\PYG{p}{:} \PYG{n}{day}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}time\PYGZsq{}}\PYG{p}{:} \PYG{n}{time}\PYG{p}{,}
+                \PYG{l+s+s1}{\PYGZsq{}area\PYGZsq{}}\PYG{p}{:} \PYG{n}{area} \PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{} launching request}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Getting\PYGZus{}wind\PYGZus{}data}\PYG{p}{(}\PYG{n}{variable\PYGZus{}dic}\PYG{p}{,} \PYG{n}{Nsplit}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Writing place specifications (ALWAYS call this function just after the requests)}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Write\PYGZus{}spec}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}info.txt\PYGZsq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Extracting data \PYGZsh{}\PYGZsh{}\PYGZsh{} checl that your path to wgrib is correct}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Update\PYGZus{}grib\PYGZus{}name}\PYG{p}{()}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Extract\PYGZus{}UV}\PYG{p}{(}\PYG{n}{path\PYGZus{}to\PYGZus{}wgrib} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}/home/gadal/Bin\PYGZus{}local/\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{load\PYGZus{}wind\PYGZus{}data}\PYG{p}{()}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Writing to binary files for fast futur loading}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Save\PYGZus{}to\PYGZus{}bin}\PYG{p}{()}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Printing wind and flux roses}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Cartesian\PYGZus{}to\PYGZus{}polar}\PYG{p}{()}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Write\PYGZus{}wind\PYGZus{}rose}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}wind\PYGZus{}rose\PYGZsq{}}\PYG{p}{,} \PYG{n}{ext} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}.pdf\PYGZsq{}}\PYG{p}{,}  \PYG{n}{normed}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,} \PYG{n}{opening}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{edgecolor}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}k\PYGZsq{}}\PYG{p}{,} \PYG{n}{nsector} \PYG{o}{=} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{n}{bins} \PYG{o}{=} \PYG{l+m+mi}{6}\PYG{p}{)}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Write\PYGZus{}flux\PYGZus{}rose}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}flux\PYGZus{}rose\PYGZsq{}}\PYG{p}{,} \PYG{n}{ext} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}.pdf\PYGZsq{}}\PYG{p}{,} \PYG{n}{withaxe} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{opening} \PYG{o}{=} \PYG{l+m+mf}{0.9}\PYG{p}{,} \PYG{n}{nsector} \PYG{o}{=} \PYG{l+m+mi}{30}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Creating google earth points}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Update\PYGZus{}coordinates}\PYG{p}{()}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Write\PYGZus{}coordinates}\PYG{p}{()}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Create\PYGZus{}KMZ}\PYG{p}{()}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}}
+\PYG{c+c1}{\PYGZsh{} Imagine that you forgot to do this on the first script, but you want to do it later.}
+\PYG{c+c1}{\PYGZsh{} You can write another script and just call:}
+\PYG{n}{Namibia} \PYG{o}{=} \PYG{n}{Era5}\PYG{o}{.}\PYG{n}{Wind\PYGZus{}data}\PYG{p}{()}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} Loading specifications, in case you to start the script here with data already downloaded.}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{load\PYGZus{}spec}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}info.txt\PYGZsq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Loading from binary files: If you want to load the data later, much quicker with binary files.}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{load\PYGZus{}from\PYGZus{}bin}\PYG{p}{()}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{} Writing wind data by point over grid}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Update\PYGZus{}coordinates}\PYG{p}{()}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Cartesian\PYGZus{}to\PYGZus{}polar}\PYG{p}{()}
+\PYG{n}{Namibia}\PYG{o}{.}\PYG{n}{Write\PYGZus{}wind\PYGZus{}data}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}wind\PYGZus{}data\PYGZsq{}}\PYG{p}{)}
+\end{Verbatim}
