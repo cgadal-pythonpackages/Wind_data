@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T16:15:22+02:00
+# @Last modified time: 2019-09-17T16:15:48+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -213,7 +213,7 @@ class Wind_data:
         self.Uorientation = (np.arctan2(self.Vwind,self.Uwind) % (2*np.pi) )*180/np.pi
 
     def Calculate_fluxes(self, grain_size = 180*10**-6):
-        self.Qstrengh, self.Qorientation = Wind_to_flux(np.c_[self.Uorientation,self.Ustrength, grain_size)
+        self.Qstrengh, self.Qorientation = Wind_to_flux(np.c_[self.Uorientation,self.Ustrength], grain_size)
 
     def Write_wind_rose(self, dir, ext = '.pdf', **kwargs):
         if os.path.isdir(dir) == False:
