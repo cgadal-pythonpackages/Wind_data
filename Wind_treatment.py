@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T16:20:50+02:00
+# @Last modified time: 2019-09-17T16:21:24+02:00
 
 
 
@@ -70,7 +70,7 @@ def flux_rose(Angle, PdfQ_tp, withaxe = 0, place = None, fig = None, color = 'gr
         if withaxe != 1:
             ax.set_yticks([])
 
-def Wind_to_flux(wind_direction, wind_direction, grain_size, z_0 = 1e-3, z = 10, rhoair = 1.293, rhosed = 2.55e3):
+def Wind_to_flux(wind_direction, wind_strengh, grain_size, z_0 = 1e-3, z = 10, rhoair = 1.293, rhosed = 2.55e3):
         # Data : first column are directions, second column are speed
         # d : grain diameter
         # dt : step of the time serie
