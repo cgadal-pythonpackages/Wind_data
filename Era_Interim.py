@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T15:13:33+02:00
+# @Last modified time: 2019-09-17T15:14:47+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -42,8 +42,9 @@ class Wind_data:
         self.years = years
         self.grib_name = None
         self.coordinates = None
-        self.lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - 0.75, -0.75)
-        self.lon = np.arange(self.grid_bounds[0][1], self.grid_bounds[1][1] + 0.75, 0.75)
+        if self.grid_bounds != None:
+            self.lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - 0.75, -0.75)
+            self.lon = np.arange(self.grid_bounds[0][1], self.grid_bounds[1][1] + 0.75, 0.75)
 
         ####### numpy arrays [3D arrays, x,y,t]
         self.Uwind = None
