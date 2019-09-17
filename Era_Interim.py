@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T15:01:59+02:00
+# @Last modified time: 2019-09-17T15:13:33+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -55,7 +55,7 @@ class Wind_data:
         self.Qstrengh = None
         self.Qorientation = None
 
-        def Getting_wind_data(self, area_wanted  = self.grid_bounds, dates = self.years, Nsplit, quick_option = True):
+        def Getting_wind_data(self, Nsplit, area_wanted  = self.grid_bounds, dates = self.years, quick_option = True):
             name = self.name
             self.Update_grib_name()
 
