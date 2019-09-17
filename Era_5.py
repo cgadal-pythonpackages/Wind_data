@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T14:40:18+02:00
+# @Last modified time: 2019-09-17T14:53:32+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T14:40:18+02:00
+# @Last modified time: 2019-09-17T14:53:32+02:00
 
 import cdsapi
 import os
@@ -44,6 +44,8 @@ class Wind_data:
         self.years = None
         self.grib_name = None
         self.coordinates = None
+        self.lat = np.arange(self.grid_bounds[0], self.grid_bounds[2] - 0.25, -0.25)
+        self.lon = np.arange(self.grid_bounds[1], self.grid_bounds[3] + 0.25, 0.25)
 
         ####### numpy arrays [3D arrays, x,y,t]
         self.Uwind = None
@@ -120,6 +122,8 @@ class Wind_data:
         self.name = dict_from_file['name']
         self.grid_bounds = dict_from_file['area']
         self.years = dict_from_file['years']
+        self.lat = np.arange(self.grid_bounds[0], self.grid_bounds[2] - 0.25, -0.25)
+        self.lon = np.arange(self.grid_bounds[1], self.grid_bounds[3] + 0.25, 0.25)
 
     def Extract_UV(self, path_to_wgrib = None):
         if path_to_wgrib != None:
@@ -215,13 +219,11 @@ class Wind_data:
 
 
     def Update_coordinates(self):
-        lat = np.arange(self.grid_bounds[0], self.grid_bounds[2] - 0.25, -0.25)
-        lon = np.arange(self.grid_bounds[1], self.grid_bounds[3] + 0.25, 0.25)
-        self.coordinates = np.zeros((lat.size*lon.size,2))
+        self.coordinates = np.zeros((self.lat.size*self.lon.size,2))
         k = 0
-        for i in range(lat.size):
-            for j in range(lon.size):
-                    self.coordinates[k] = [lat[i], lon[j]]
+        for i in range(self.lat.size):
+            for j in range(self.lon.size):
+                    self.coordinates[k] = [self.lat[i], self.lon[j]]
                     k = k + 1
 
     def Write_coordinates(self):

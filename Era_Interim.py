@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T14:38:42+02:00
+# @Last modified time: 2019-09-17T14:53:15+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -42,6 +42,8 @@ class Wind_data:
         self.years = [[1999,1,1], [2017,12,31]]
         self.grib_name = None
         self.coordinates = None
+        self.lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - 0.75, -0.75)
+        self.lon = np.arange(self.grid_bounds[0][1], self.grid_bounds[1][1] + 0.75, 0.75)
 
         ####### numpy arrays [3D arrays, x,y,t]
         self.Uwind = None
@@ -150,6 +152,8 @@ class Wind_data:
         self.name = dict_from_file['name']
         self.grid_bounds = dict_from_file['area']
         self.years = dict_from_file['years']
+        self.lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - 0.75, -0.75)
+        self.lon = np.arange(self.grid_bounds[0][1], self.grid_bounds[1][1] + 0.75, 0.75)
 
 
     def Extract_UV(self, path_to_wgrib = None):
@@ -245,13 +249,11 @@ class Wind_data:
 
 
         def Update_coordinates(self):
-            lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - 0.75, -0.75)
-            lon = np.arange(self.grid_bounds[0][1], self.grid_bounds[1][1] + 0.75, 0.75)
-            self.coordinates = np.zeros((lat.size*lon.size,2))
+            self.coordinates = np.zeros((self.lat.size*self.lon.size,2))
             k = 0
-            for i in range(lat.size):
-                for j in range(lon.size):
-                        self.coordinates[k] = [lat[i], lon[j]]
+            for i in range(self.lat.size):
+                for j in range(self.lon.size):
+                        self.coordinates[k] = [self.lat[i], self.lon[j]]
                         k = k + 1
 
         def Write_coordinates(self):
