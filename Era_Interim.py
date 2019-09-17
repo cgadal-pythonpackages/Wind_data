@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T15:14:47+02:00
+# @Last modified time: 2019-09-17T16:12:08+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -248,52 +248,52 @@ class Wind_data:
                 i = i + 1
 
 
-        def Update_coordinates(self):
-            self.coordinates = np.zeros((self.lat.size*self.lon.size,2))
-            k = 0
-            for i in range(self.lat.size):
-                for j in range(self.lon.size):
-                        self.coordinates[k] = [self.lat[i], self.lon[j]]
-                        k = k + 1
+    def Update_coordinates(self):
+        self.coordinates = np.zeros((self.lat.size*self.lon.size,2))
+        k = 0
+        for i in range(self.lat.size):
+            for j in range(self.lon.size):
+                    self.coordinates[k] = [self.lat[i], self.lon[j]]
+                    k = k + 1
 
-        def Write_coordinates(self):
-            np.savetxt('Coordinates.txt', self.coordinates, fmt='%+2.4f')
+    def Write_coordinates(self):
+        np.savetxt('Coordinates.txt', self.coordinates, fmt='%+2.4f')
 
-        def Create_KMZ(self):
-            loc_path = os.path.join(os.path.dirname(__file__), 'src')
-            #### Destination file
-            with open(self.name + '.kml','w') as dest :
+    def Create_KMZ(self):
+        loc_path = os.path.join(os.path.dirname(__file__), 'src')
+        #### Destination file
+        with open(self.name + '.kml','w') as dest :
 
-                ##### Writing the first Part
-                with open(os.path.join(loc_path,'En_tete_era5.kml'),'r') as entete :
-                    name = self.name
-                    for line in islice(entete, 10, None):
-                        if line == '	<name>Skeleton_Coast.kmz</name>'+'\n': ###Premiere occurence
-                            line = ' 	<name>'+name+'.kmz</name>'+'\n'
-                        elif line == '		<name>Skeleton_Coast</name>'+'\n': #### Second occurence
-                            line = ' 	<name>'+name+'</name>'+'\n'
+            ##### Writing the first Part
+            with open(os.path.join(loc_path,'En_tete_era5.kml'),'r') as entete :
+                name = self.name
+                for line in islice(entete, 10, None):
+                    if line == '	<name>Skeleton_Coast.kmz</name>'+'\n': ###Premiere occurence
+                        line = ' 	<name>'+name+'.kmz</name>'+'\n'
+                    elif line == '		<name>Skeleton_Coast</name>'+'\n': #### Second occurence
+                        line = ' 	<name>'+name+'</name>'+'\n'
 
+                    dest.write(line)
+
+            ##### Writing placemarks
+            with open(os.path.join(loc_path,'placemark.kml'),'r') as placemark, open('Coordinates.txt','r') as Coordinates :
+                i = 0
+                for Coord in Coordinates:
+                    i += 1
+                    print(i)
+                    lat = Coord[:8]
+                    lon = Coord[9:]
+                    print('lon =',lon)
+                    print('lat=',lat)
+
+                    for line in islice(placemark, 7, None):
+                        if line == '			<name>1</name>'+'\n':
+                            line = '			<name>'+str(i)+'</name>'+'\n'
+                        if line == '				<coordinates>11.25,-17.25,0</coordinates>'+'\n':
+                            line = '				<coordinates>'+lon+','+lat+',0</coordinates>'+'\n'
                         dest.write(line)
+                    placemark.seek(0,0)
 
-                ##### Writing placemarks
-                with open(os.path.join(loc_path,'placemark.kml'),'r') as placemark, open('Coordinates.txt','r') as Coordinates :
-                    i = 0
-                    for Coord in Coordinates:
-                        i += 1
-                        print(i)
-                        lat = Coord[:8]
-                        lon = Coord[9:]
-                        print('lon =',lon)
-                        print('lat=',lat)
-
-                        for line in islice(placemark, 7, None):
-                            if line == '			<name>1</name>'+'\n':
-                                line = '			<name>'+str(i)+'</name>'+'\n'
-                            if line == '				<coordinates>11.25,-17.25,0</coordinates>'+'\n':
-                                line = '				<coordinates>'+lon+','+lat+',0</coordinates>'+'\n'
-                            dest.write(line)
-                        placemark.seek(0,0)
-
-                ##### Wrtiting closure
-                with open(os.path.join(loc_path,'bottom_page.kml'),'r') as bottom :
-                    dest.writelines(bottom.readlines()[7:])
+            ##### Wrtiting closure
+            with open(os.path.join(loc_path,'bottom_page.kml'),'r') as bottom :
+                dest.writelines(bottom.readlines()[7:])
