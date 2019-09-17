@@ -2,7 +2,7 @@
 # @Date:   2019-05-22T13:35:05+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T14:42:00+02:00
+# @Last modified time: 2019-09-17T14:58:34+02:00
 
 import sys
 sys.path.append('../')
@@ -22,7 +22,7 @@ year = [str(i) for i in np.arange(1979, 2020)]   ## years
 month = ['{:02d}'.format(i) for i in np.arange(1, 13)] ## months
 day = ['{:02d}'.format(i) for i in np.arange(1, 32)] ## days
 time =  ['{:02d}'.format(i) +':00' for i in np.arange(0, 24)] ## hours
-area = [-22.5, 14.25, -27.75, 16.5] ## geographical subset
+area = Namibia.grid_bounds() ## geographical subset
 
 variable_dic = {'product_type':'reanalysis',
                 'format': 'grib',

@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T14:53:15+02:00
+# @Last modified time: 2019-09-17T15:01:59+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -36,10 +36,10 @@ class Wind_data:
     _ date de début et date de fin de la forme AAAA/MM/JJ
     """
 
-    def __init__(self):
-        self.name = 'Skeleton_Coast'
-        self.grid_bounds = [[20.5,34.2], [105.3,-3.5]]
-        self.years = [[1999,1,1], [2017,12,31]]
+    def __init__(self, name, grid_bounds, years):
+        self.name = name
+        self.grid_bounds = grid_bounds
+        self.years = years
         self.grib_name = None
         self.coordinates = None
         self.lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - 0.75, -0.75)
@@ -55,9 +55,8 @@ class Wind_data:
         self.Qstrengh = None
         self.Qorientation = None
 
-        def Getting_wind_data(self, area_wanted, Nsplit, quick_option = True):
+        def Getting_wind_data(self, area_wanted  = self.grid_bounds, dates = self.years, Nsplit, quick_option = True):
             name = self.name
-            dates = self.years
             self.Update_grib_name()
 
             if quick_option == True :

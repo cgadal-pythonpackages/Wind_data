@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T14:53:32+02:00
+# @Last modified time: 2019-09-17T15:11:24+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T14:53:32+02:00
+# @Last modified time: 2019-09-17T15:11:24+02:00
 
 import cdsapi
 import os
@@ -38,14 +38,12 @@ class Wind_data:
     _ date de début et date de fin de la forme AAAA/MM/JJ
     """
 
-    def __init__(self):
-        self.name = 'Skeleton_Coast'
+    def __init__(self, name):
+        self.name = name
         self.grid_bounds = None
         self.years = None
         self.grib_name = None
         self.coordinates = None
-        self.lat = np.arange(self.grid_bounds[0], self.grid_bounds[2] - 0.25, -0.25)
-        self.lon = np.arange(self.grid_bounds[1], self.grid_bounds[3] + 0.25, 0.25)
 
         ####### numpy arrays [3D arrays, x,y,t]
         self.Uwind = None
@@ -83,6 +81,8 @@ class Wind_data:
         ## updating dic and class obj
         variable_dic['area'] = area_wanted
         self.grid_bounds = area_wanted
+        self.lat = np.arange(self.grid_bounds[0], self.grid_bounds[2] - 0.25, -0.25)
+        self.lon = np.arange(self.grid_bounds[1], self.grid_bounds[3] + 0.25, 0.25)
         print('Area is :', area_wanted)
         # print('Please ensure that the area returned by ECMWF correspond to this Area. Otherwise correct it by modifying self.area afterwards.')
 

@@ -2,7 +2,7 @@
 # @Date:   2018-12-14T18:00:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T14:42:12+02:00
+# @Last modified time: 2019-09-17T14:57:35+02:00
 
 
 import sys
@@ -10,12 +10,11 @@ sys.path.append('../')
 import Era_Interim
 
 ######################################  Create the wanted wind data Data base :
-Skeleton_Coast = Era_Interim.Wind_data()
-Skeleton_Coast.name =  'Skeleton_Coast'
+name =  'Skeleton_Coast'
+grid_bounds = [[-23.8,14.07], [-26.3,16.7]]
+years = [[1979,1,1], [2017,12,31]]
 
-####################################################### Define its attributes :
-Skeleton_Coast.grid_bounds = [[-23.8,14.07], [-26.3,16.7]]
-Skeleton_Coast.years = [[1979,1,1], [2017,12,31]]
+Skeleton_Coast = Era_Interim.Wind_data(name, grid_bounds, years)
 
 ######################### Retrieve the wind data fron the Era Interim serveur :
 #### Do not forget to split your request it's too large.
