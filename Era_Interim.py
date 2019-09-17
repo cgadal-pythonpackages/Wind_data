@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T16:21:00+02:00
+# @Last modified time: 2019-09-17T17:24:58+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -53,7 +53,7 @@ class Wind_data:
         self.Uorientation = None
         self.Qx = None
         self.Qy = None
-        self.Qstrengh = None
+        self.Qstrength = None
         self.Qorientation = None
 
         def Getting_wind_data(self, Nsplit, area_wanted  = self.grid_bounds, dates = self.years, quick_option = True):
@@ -213,7 +213,7 @@ class Wind_data:
         self.Uorientation = (np.arctan2(self.Vwind,self.Uwind) % (2*np.pi) )*180/np.pi
 
     def Calculate_fluxes(self, grain_size = 180*10**-6):
-        self.Qstrengh, self.Qorientation = Wind_to_flux(self.Uorientation, self.Ustrength, grain_size)
+        self.Qstrength, self.Qorientation = Wind_to_flux(self.Uorientation, self.Ustrength, grain_size)
 
     def Write_wind_rose(self, dir, ext = '.pdf', **kwargs):
         if os.path.isdir(dir) == False:
@@ -240,7 +240,7 @@ class Wind_data:
         for y in range(self.Uwind.shape[1]):
             for x in range(self.Uwind.shape[0]):
                 print('Point number' + str(i))
-                pdfQ, Angle, _  = PDF_flux(self.Qstrengh[x,y,:], self.Qorientation[x,y,:])
+                pdfQ, Angle, _  = PDF_flux(self.Qstrength[x,y,:], self.Qorientation[x,y,:])
                 fig = plt.figure()
                 flux_rose(Angle[:-1],pdfQ, fig = fig, **kwargs)
                 plt.savefig(dir + '/flux_rose_'+ format_string.format(i+1) + ext)
