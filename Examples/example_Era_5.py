@@ -2,7 +2,7 @@
 # @Date:   2019-05-22T13:35:05+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T11:23:40+02:00
+# @Last modified time: 2019-09-17T14:42:00+02:00
 
 import sys
 sys.path.append('../')
@@ -42,13 +42,14 @@ Namibia.Write_spec('info.txt')
 ### Extracting data ### checl that your path to wgrib is correct
 Namibia.Update_grib_name()
 Namibia.Extract_UV(path_to_wgrib = '/home/gadal/Bin_local/')
-Namibia.load_wind_data()
+Namibia.load_time_series()
 
 ### Writing to binary files for fast futur loading
 Namibia.Save_to_bin()
 
 ### Printing wind and flux roses
 Namibia.Cartesian_to_polar()
+Namibia.Calculate_fluxes()
 Namibia.Write_wind_rose('wind_rose', ext = '.pdf',  normed=True, opening=1, edgecolor='k', nsector = 20, bins = 6)
 Namibia.Write_flux_rose('flux_rose', ext = '.pdf', withaxe = 1, opening = 0.9, nsector = 30)
 

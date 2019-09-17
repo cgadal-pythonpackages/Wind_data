@@ -2,7 +2,7 @@
 # @Date:   2018-12-14T18:00:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-06-14T14:31:05+02:00
+# @Last modified time: 2019-09-17T14:42:12+02:00
 
 
 import sys
@@ -28,11 +28,12 @@ Skeleton_Coast.Write_spec('info.txt')
 
 ################################################### Proceed the raw wind data :
 Skeleton_Coast.Extract_UV(path_to_wgrib = '/home/gadal/Bin_local')
-Skeleton_Coast.load_wind_data()
+Skeleton_Coast.load_time_series()
 Skeleton_Coast.Cartesian_to_polar()
+Namibia.Calculate_fluxes()
 
 # Optional, write the wind data to separate .txt files.
-Skeleton_Coast.Write_wind_data('wind_data')
+# Skeleton_Coast.Write_wind_data('wind_data')
 
 ###############################################  Plot the wind and flux roses :
 Skeleton_Coast.Write_wind_rose('wind_rose', ext = '.pdf',  normed=True,

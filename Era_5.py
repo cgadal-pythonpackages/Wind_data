@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-29T18:01:55+02:00
+# @Last modified time: 2019-09-17T14:40:18+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-05-29T18:01:55+02:00
+# @Last modified time: 2019-09-17T14:40:18+02:00
 
 import cdsapi
 import os
@@ -19,10 +19,6 @@ from itertools import islice
 # from . import Wind_treatment
 
 area_ref = [-17.25,11.25]
-
-
-def format_area(point_coordinates):
-    return '{:02.2f}'.format(point_coordinates[0]) + '/' + '{:02.2f}'.format(point_coordinates[1])
 
 def format_time(date):
     return '{:04d}'.format(date[0]) + '-' + '{:02d}'.format(date[1]) + '-' + '{:02d}'.format(date[2])
@@ -54,6 +50,10 @@ class Wind_data:
         self.Vwind = None
         self.Ustrength = None
         self.Uorientation = None
+        self.Qx = None
+        self.Qy = None
+        self.Qstrengh = None
+        self.Qorientation = None
 
 
     def Getting_wind_data(self,  variable_dic, Nsplit = 1):
@@ -81,10 +81,8 @@ class Wind_data:
         ## updating dic and class obj
         variable_dic['area'] = area_wanted
         self.grid_bounds = area_wanted
-        # area = format_area(area_wanted[0]) + '/' + format_area(area_wanted[1])
         print('Area is :', area_wanted)
-        # print('Grid_bounds =' + str(area))
-        print('Please ensure that the area returned by ECMWF correspond to this Area. Otherwise correct it by modifying self.area afterwards.')
+        # print('Please ensure that the area returned by ECMWF correspond to this Area. Otherwise correct it by modifying self.area afterwards.')
 
         self.Update_grib_name()
 
@@ -108,6 +106,50 @@ class Wind_data:
     def Update_grib_name(self):
         self.grib_name = 'interim_' + format_time(self.years[0]) + 'to' + format_time(self.years[1]) + '_'+ self.name + '.grib'
 
+    def Write_spec(self, name):
+        dict = {'name' : self.name, 'area' : self.grid_bounds, 'years' : self.years}
+        if os.path.isfile(name) == True:
+            print(name + ' already exists')
+        else:
+            with open(name,"w") as f:
+                f.write(str(dict))
+
+    def load_spec(self,name):
+        with open(name,'r') as inf:
+            dict_from_file = eval(inf.read())
+        self.name = dict_from_file['name']
+        self.grid_bounds = dict_from_file['area']
+        self.years = dict_from_file['years']
+
+    def Extract_UV(self, path_to_wgrib = None):
+        if path_to_wgrib != None:
+            os.environ['PATH'] += os.pathsep + path_to_wgrib
+        os.system('wgrib -s ' + self.grib_name + ' | grep :10U: | wgrib -i -text ' + self.grib_name + ' -o ' + self.grib_name[:-5] + '_10U.txt')
+        os.system('wgrib -s ' + self.grib_name + ' | grep :10V: | wgrib -i -text ' + self.grib_name + ' -o ' + self.grib_name[:-5] + '_10V.txt')
+
+    def load_time_series(self):
+        print('Loading wind data from U/V txt files')
+        if self.grib_name == None:
+            self.Update_grib_name()
+        with open(self.grib_name[:-5] + '_10U.txt') as f:
+            first_line = f.readline().split(' ')
+        Nx = int(first_line[0])
+        Ny = int(first_line[1])
+        Nt = file_lenght(self.grib_name[:-5] + '_10U.txt')//(Nx*Ny+1)
+        self.Uwind = np.zeros((Nx,Ny,Nt))
+        self.Vwind = np.zeros((Nx,Ny,Nt))
+        with open(self.grib_name[:-5] + '_10U.txt') as fU, open(self.grib_name[:-5] + '_10V.txt') as fV:
+            i = 0
+            for lineU, lineV in zip(fU, fV):
+                t = i//(Nx*Ny +1)
+                temp = i%(Nx*Ny + 1)
+                if temp != 0:
+                    x = (temp - 1)%Nx
+                    y = (temp - 1)//Nx
+                    self.Uwind[x,y,t] = float(lineU.strip())
+                    self.Vwind[x,y,t] = float(lineV.strip())
+                i += 1
+
     def Save_to_bin(self):
         np.save('Uwind.npy', self.Uwind)
         np.save('Vwind.npy', self.Vwind)
@@ -116,20 +158,60 @@ class Wind_data:
         self.Uwind = np.load('Uwind.npy')
         self.Vwind = np.load('Vwind.npy')
 
+    def Write_wind_data(self, dir, pattern = 'wind_data_'):
+        if os.path.isdir(dir) == False:
+            os.mkdir(dir)
+        i = 0
+        Npoints = self.Uwind.shape[0]*self.Uwind.shape[1]
+        format_string = '{:0' + str(int(np.log10(Npoints)) + 1) + '}'
+        for y in range(self.Uwind.shape[1]):
+            for x in range(self.Uwind.shape[0]):
+                print('x = ' + str(x) +', y = ' + str(y) + ', Point number' + str(i))
+                np.savetxt(dir + '/' + pattern + format_string.format(i+1) +'.txt', np.c_[self.Uorientation[x,y,:], self.Ustrength[x,y,:]], fmt ='%1.5e')
+                i = i + 1
+
     def Cartesian_to_polar(self):
         self.Ustrength = 0*self.Uwind
         self.Uorientation = 0*self.Uwind
 
         self.Ustrength = np.sqrt(self.Uwind**2 + self.Vwind**2)
         self.Uorientation = (np.arctan2(self.Vwind,self.Uwind) % (2*np.pi) )*180/np.pi
-        # for x in range(self.Uwind.shape[0]):
-        #     for y in range(self.Uwind.shape[1]):
-        #         for t in range(self.Uwind.shape[2]):
-        #             u = self.Uwind[x,y,t]
-        #             v = self.Vwind[x,y,t]
-        #
-        #             self.Ustrength[x,y,t] = np.sqrt(u**2 + v**2)
-        #             self.Uorientation[x,y,t] = (atan2(v,u) % (2*np.pi) )*180/np.pi
+
+    def Calculate_fluxes(self, grain_size = 180*10**-6):
+        self.Qstrengh, self.Qorientation = Wind_to_flux(np.c_[self.Uorientation[x,y,:],self.Ustrength[x,y,:]], grain_size)
+
+    def Write_wind_rose(self, dir, ext = '.pdf', **kwargs):
+        if os.path.isdir(dir) == False:
+            os.mkdir(dir)
+        i = 0
+        Npoints = self.Uwind.shape[0]*self.Uwind.shape[1]
+        format_string = '{:0' + str(int(np.log10(Npoints)) + 1) + '}'
+        for y in range(self.Uwind.shape[1]):
+            for x in range(self.Uwind.shape[0]):
+                print('Point number' + str(i))
+                plt.ioff()
+                fig = plt.figure()
+                wind_rose(self.Uorientation[x,y,:],self.Ustrength[x,y,:], fig = fig, **kwargs)
+                plt.savefig(dir + '/wind_rose_'+ format_string.format(i+1) + ext)
+                plt.close('all')
+                i = i + 1
+
+    def Write_flux_rose(self, dir, ext = '.pdf', **kwargs):
+        if os.path.isdir(dir) == False:
+            os.mkdir(dir)
+        i = 0
+        Npoints = self.Uwind.shape[0]*self.Uwind.shape[1]
+        format_string = '{:0' + str(int(np.log10(Npoints)) + 1) + '}'
+        print('Printing flux roses ...')
+        for y in range(self.Uwind.shape[1]):
+            for x in range(self.Uwind.shape[0]):
+                print('Point number' + str(i))
+                pdfQ, Angle, _  = PDF_flux(self.Qstrengh, self.Qorientation)
+                fig = plt.figure()
+                flux_rose(Angle[:-1],pdfQ, fig = fig, **kwargs)
+                plt.savefig(dir + '/flux_rose_'+ format_string.format(i+1) + ext)
+                plt.close('all')
+                i = i + 1
 
 
     def Update_coordinates(self):
@@ -183,94 +265,3 @@ class Wind_data:
             ##### Wrtiting closure
             with open(os.path.join(loc_path,'bottom_page.kml'),'r') as bottom :
                 dest.writelines(bottom.readlines()[7:])
-
-
-    def Extract_UV(self, path_to_wgrib = None):
-        if path_to_wgrib != None:
-            os.environ['PATH'] += os.pathsep + path_to_wgrib
-        os.system('wgrib -s ' + self.grib_name + ' | grep :10U: | wgrib -i -text ' + self.grib_name + ' -o ' + self.grib_name[:-5] + '_10U.txt')
-        os.system('wgrib -s ' + self.grib_name + ' | grep :10V: | wgrib -i -text ' + self.grib_name + ' -o ' + self.grib_name[:-5] + '_10V.txt')
-
-    def load_wind_data(self):
-        print('Loading wind data from U/V txt files')
-        if self.grib_name == None:
-            self.Update_grib_name()
-        with open(self.grib_name[:-5] + '_10U.txt') as f:
-            first_line = f.readline().split(' ')
-        Nx = int(first_line[0])
-        Ny = int(first_line[1])
-        Nt = file_lenght(self.grib_name[:-5] + '_10U.txt')//(Nx*Ny+1)
-        self.Uwind = np.zeros((Nx,Ny,Nt))
-        self.Vwind = np.zeros((Nx,Ny,Nt))
-        with open(self.grib_name[:-5] + '_10U.txt') as fU, open(self.grib_name[:-5] + '_10V.txt') as fV:
-            i = 0
-            for lineU, lineV in zip(fU, fV):
-                t = i//(Nx*Ny +1)
-                temp = i%(Nx*Ny + 1)
-                if temp != 0:
-                    x = (temp - 1)%Nx
-                    y = (temp - 1)//Nx
-                    self.Uwind[x,y,t] = float(lineU.strip())
-                    self.Vwind[x,y,t] = float(lineV.strip())
-                i += 1
-
-    def Write_wind_data(self, dir, pattern = 'wind_data_'):
-        if os.path.isdir(dir) == False:
-            os.mkdir(dir)
-        i = 0
-        Npoints = self.Uwind.shape[0]*self.Uwind.shape[1]
-        format_string = '{:0' + str(int(np.log10(Npoints)) + 1) + '}'
-        for y in range(self.Uwind.shape[1]):
-            for x in range(self.Uwind.shape[0]):
-                print('x = ' + str(x) +', y = ' + str(y) + ', Point number' + str(i))
-                np.savetxt(dir + '/' + pattern + format_string.format(i+1) +'.txt', np.c_[self.Uorientation[x,y,:], self.Ustrength[x,y,:]], fmt ='%1.5e')
-                i = i + 1
-
-    def Write_wind_rose(self, dir, ext = '.pdf', **kwargs):
-        if os.path.isdir(dir) == False:
-            os.mkdir(dir)
-        i = 0
-        Npoints = self.Uwind.shape[0]*self.Uwind.shape[1]
-        format_string = '{:0' + str(int(np.log10(Npoints)) + 1) + '}'
-        for y in range(self.Uwind.shape[1]):
-            for x in range(self.Uwind.shape[0]):
-                print('Point number' + str(i))
-                plt.ioff()
-                fig = plt.figure()
-                wind_rose(self.Uorientation[x,y,:],self.Ustrength[x,y,:], fig = fig, **kwargs)
-                plt.savefig(dir + '/wind_rose_'+ format_string.format(i+1) + ext)
-                plt.close('all')
-                i = i + 1
-
-    def Write_flux_rose(self, dir, ext = '.pdf', grain_size = 180*10**-6, **kwargs):
-        if os.path.isdir(dir) == False:
-            os.mkdir(dir)
-        i = 0
-        Npoints = self.Uwind.shape[0]*self.Uwind.shape[1]
-        format_string = '{:0' + str(int(np.log10(Npoints)) + 1) + '}'
-        print('Printing flux roses ...')
-        for y in range(self.Uwind.shape[1]):
-            for x in range(self.Uwind.shape[0]):
-                print('Point number' + str(i))
-                pdfQ, Angle, _  = PDF_flux(np.c_[self.Uorientation[x,y,:],self.Ustrength[x,y,:]], grain_size)
-                plt.ioff()
-                fig = plt.figure()
-                flux_rose(Angle[:-1], pdfQ, fig = fig, **kwargs)
-                plt.savefig(dir + '/flux_rose_'+ format_string.format(i+1) + ext)
-                plt.close('all')
-                i = i + 1
-
-    def Write_spec(self, name):
-        dict = {'name' : self.name, 'area' : self.grid_bounds, 'years' : self.years}
-        if os.path.isfile(name) == True:
-            print(name + ' already exists')
-        else:
-            with open(name,"w") as f:
-                f.write(str(dict))
-
-    def load_spec(self,name):
-        with open(name,'r') as inf:
-            dict_from_file = eval(inf.read())
-        self.name = dict_from_file['name']
-        self.grid_bounds = dict_from_file['area']
-        self.years = dict_from_file['years']
