@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-06-13T14:38:22+02:00
+# @Last modified time: 2019-09-17T11:28:21+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -285,3 +285,11 @@ class Wind_data:
         self.name = dict_from_file['name']
         self.grid_bounds = dict_from_file['area']
         self.years = dict_from_file['years']
+
+    def Save_to_bin(self):
+        np.save('Uwind.npy', self.Uwind)
+        np.save('Vwind.npy', self.Vwind)
+
+    def load_from_bin(self):
+        self.Uwind = np.load('Uwind.npy')
+        self.Vwind = np.load('Vwind.npy')

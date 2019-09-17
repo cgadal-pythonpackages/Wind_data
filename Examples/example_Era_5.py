@@ -2,7 +2,7 @@
 # @Date:   2019-05-22T13:35:05+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-06-14T14:28:08+02:00
+# @Last modified time: 2019-09-17T11:23:40+02:00
 
 import sys
 sys.path.append('../')
@@ -34,7 +34,7 @@ variable_dic = {'product_type':'reanalysis',
                 'area': area }
 
 ### launching request
-Namibia.Getting_wind_data(variable_dic, Nsplit)
+Namibia.Getting_wind_data(variable_dic)
 
 ### Writing place specifications (ALWAYS call this function just after the requests)
 Namibia.Write_spec('info.txt')
