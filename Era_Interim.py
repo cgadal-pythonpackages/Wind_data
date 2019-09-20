@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T17:24:58+02:00
+# @Last modified time: 2019-09-20T13:53:24+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -265,7 +265,7 @@ class Wind_data:
         with open(self.name + '.kml','w') as dest :
 
             ##### Writing the first Part
-            with open(os.path.join(loc_path,'En_tete_era5.kml'),'r') as entete :
+            with open(os.path.join(loc_path,'En_tete.kml'),'r') as entete :
                 name = self.name
                 for line in islice(entete, 10, None):
                     if line == '	<name>Skeleton_Coast.kmz</name>'+'\n': ###Premiere occurence
