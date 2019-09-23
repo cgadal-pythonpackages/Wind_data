@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-23T13:37:37+02:00
+# @Last modified time: 2019-09-23T13:41:45+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -57,83 +57,83 @@ class Wind_data:
         self.Qstrength = None
         self.Qorientation = None
 
-        def Getting_wind_data(self, Nsplit, area_wanted  = self.grid_bounds, dates = self.years, quick_option = True):
-            name = self.name
-            self.Update_grib_name()
+    def Getting_wind_data(self, Nsplit, area_wanted  = self.grid_bounds, dates = self.years, quick_option = True):
+        name = self.name
+        self.Update_grib_name()
 
-            if quick_option == True :
-                area_wanted[0][0] = area_wanted[0][0] - (area_wanted[0][0] - area_ref[0])%(self.grid)
-                area_wanted[0][1] = area_wanted[0][1] - (area_wanted[0][1] - area_ref[1])%(self.grid)
-                area_wanted[1][0] = area_wanted[1][0] - (area_wanted[1][0] - area_ref[0])%(self.grid)
-                area_wanted[1][1] = area_wanted[1][1] - (area_wanted[1][1] - area_ref[1])%(self.grid)
-
-
-            area = format_area(area_wanted[0]) + '/' + format_area(area_wanted[1])
-            print('Area is :' + area)
+        if quick_option == True :
+            area_wanted[0][0] = area_wanted[0][0] - (area_wanted[0][0] - area_ref[0])%(self.grid)
+            area_wanted[0][1] = area_wanted[0][1] - (area_wanted[0][1] - area_ref[1])%(self.grid)
+            area_wanted[1][0] = area_wanted[1][0] - (area_wanted[1][0] - area_ref[0])%(self.grid)
+            area_wanted[1][1] = area_wanted[1][1] - (area_wanted[1][1] - area_ref[1])%(self.grid)
 
 
-            Nyear = dates[1][0] - dates[0][0]
-            Dyear = round(Nyear/Nsplit)
-            year_list = [dates[1][0] if i == (Nsplit) else dates[0][0] + i*Dyear  for i in range(Nsplit + 1)]
-            name_file = []
-
-            for i in range(Nsplit):
-                d1 = [year_list[i]+1, 1, 1]
-                d2 = [year_list[i+1],12,31]
-                if i == 0:
-                    d1[0] = dates[0][0]
-                    d1[1] = dates[0][1]
-                    d1[2] = dates[0][2]
-                elif i == Nsplit -1 :
-                    d2[1] = dates[1][1]
-                    d2[2] = dates[1][2]
-                print(str(d1) + ' to ' + str(d2))
-
-                date = format_time(d1) + '/to/' + format_time(d2)
-                name_file.append('interim_' + format_time(d1) + 'to' + format_time(d2) + '_'+ name + '.grib')
+        area = format_area(area_wanted[0]) + '/' + format_area(area_wanted[1])
+        print('Area is :' + area)
 
 
-                server = ECMWFDataServer()
-                Dic = {
-                #Specify ERA-interim archives. Don't change it
-                    'dataset'   : "interim",
-                    'class'     : "ei",
-                    'stream'    : "oper",
-                    'expver' : 'l',
-                #Specify type of data : an for analysis, fc for forecast for example.
-                    'type'      : "an",
-                #Specify the variables you want: lat (114.202)/ lon (115.202)/10m u wind component(166.128)/ 10m v wind component(167.128).
-                #For all parameters see http://apps.ecmwf.int/codes/grib/param-db
-                    'param'     : "114.202/115.202/165.128/166.128",
-                    'levtype'   : "sfc",
+        Nyear = dates[1][0] - dates[0][0]
+        Dyear = round(Nyear/Nsplit)
+        year_list = [dates[1][0] if i == (Nsplit) else dates[0][0] + i*Dyear  for i in range(Nsplit + 1)]
+        name_file = []
 
-                #Specify time and space grids
-                    'step'      : "0",
-                    'grid'      : str(self.grid) + '/' + str(self.grid),
-                    'area'      : area, # in N/W/S/E, Un point Nord OUest, un Sud Est, en degrés décimaux
-                    'time'      : "00/06/12/18", #Hours of the day
-                    'date'      : date,
+        for i in range(Nsplit):
+            d1 = [year_list[i]+1, 1, 1]
+            d2 = [year_list[i+1],12,31]
+            if i == 0:
+                d1[0] = dates[0][0]
+                d1[1] = dates[0][1]
+                d1[2] = dates[0][2]
+            elif i == Nsplit -1 :
+                d2[1] = dates[1][1]
+                d2[2] = dates[1][2]
+            print(str(d1) + ' to ' + str(d2))
 
-                #If you want NetCDF format. Otherise it's grib.
-                    #'format' : 'netcdf',
+            date = format_time(d1) + '/to/' + format_time(d2)
+            name_file.append('interim_' + format_time(d1) + 'to' + format_time(d2) + '_'+ name + '.grib')
 
 
-                    'target'    : name_file[i]
-                }
-                if quick_option == True:
-                    Dic['param'] = "165.128/166.128"
+            server = ECMWFDataServer()
+            Dic = {
+            #Specify ERA-interim archives. Don't change it
+                'dataset'   : "interim",
+                'class'     : "ei",
+                'stream'    : "oper",
+                'expver' : 'l',
+            #Specify type of data : an for analysis, fc for forecast for example.
+                'type'      : "an",
+            #Specify the variables you want: lat (114.202)/ lon (115.202)/10m u wind component(166.128)/ 10m v wind component(167.128).
+            #For all parameters see http://apps.ecmwf.int/codes/grib/param-db
+                'param'     : "114.202/115.202/165.128/166.128",
+                'levtype'   : "sfc",
 
-                server.retrieve(Dic)
+            #Specify time and space grids
+                'step'      : "0",
+                'grid'      : str(self.grid) + '/' + str(self.grid),
+                'area'      : area, # in N/W/S/E, Un point Nord OUest, un Sud Est, en degrés décimaux
+                'time'      : "00/06/12/18", #Hours of the day
+                'date'      : date,
 
-            if Nsplit > 1:
-                date = format_time(dates[0]) + '/to/' + format_time(dates[1])
-        #
-                os.system('cat ' + ''.join([i + ' ' for i in name_file]) + '> ' + self.grib_name)
+            #If you want NetCDF format. Otherise it's grib.
+                #'format' : 'netcdf',
 
+
+                'target'    : name_file[i]
+            }
             if quick_option == True:
-                self.grid_bounds = area_wanted
-                print('Grid_bounds =' + str(area))
-                print('quick option has been used. Please ensure that the area returned by ECMWF correspond to the grid_bounds. Otherwise correct it by modifying self.grid_bounds.')
+                Dic['param'] = "165.128/166.128"
+
+            server.retrieve(Dic)
+
+        if Nsplit > 1:
+            date = format_time(dates[0]) + '/to/' + format_time(dates[1])
+    #
+            os.system('cat ' + ''.join([i + ' ' for i in name_file]) + '> ' + self.grib_name)
+
+        if quick_option == True:
+            self.grid_bounds = area_wanted
+            print('Grid_bounds =' + str(area))
+            print('quick option has been used. Please ensure that the area returned by ECMWF correspond to the grid_bounds. Otherwise correct it by modifying self.grid_bounds.')
 
 
     def Update_grib_name(self):
