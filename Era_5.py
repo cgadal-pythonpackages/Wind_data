@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T17:24:54+02:00
+# @Last modified time: 2019-09-23T14:09:22+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T17:24:54+02:00
+# @Last modified time: 2019-09-23T14:09:22+02:00
 
 import cdsapi
 import os
@@ -44,6 +44,7 @@ class Wind_data:
         self.years = None
         self.grib_name = None
         self.coordinates = None
+        self.grid = None
 
         ####### numpy arrays [3D arrays, x,y,t]
         self.Uwind = None
@@ -66,23 +67,27 @@ class Wind_data:
             Nsplit = round(Nitems/120000) + 1
             print('Request too large. Setting Nsplit =', Nsplit)
 
-
+        if self.grid is None:
+            if 'grid' in variable_dic.keys():
+                self.grid = grid[0]
+            else:
+                sel.grid = 0.25
         # Defining years for data, either from dic variable
         dates = np.array([int(i) for i in variable_dic['year']])
         self.years = [[dates.min(),1,1], [dates.max(),12,31]]
 
         ### Puting the required area on the ERA5 grid
         area_wanted = variable_dic['area']
-        area_wanted[0] = area_wanted[0] - (area_wanted[0] - area_ref[0])%(0.25)
-        area_wanted[1] = area_wanted[1] - (area_wanted[1] - area_ref[1])%(0.25)
-        area_wanted[2] = area_wanted[2] - (area_wanted[2] - area_ref[0])%(0.25)
-        area_wanted[3] = area_wanted[3] - (area_wanted[3] - area_ref[1])%(0.25)
+        area_wanted[0] = area_wanted[0] - (area_wanted[0] - area_ref[0])%(self.grid)
+        area_wanted[1] = area_wanted[1] - (area_wanted[1] - area_ref[1])%(self.grid)
+        area_wanted[2] = area_wanted[2] - (area_wanted[2] - area_ref[0])%(self.grid)
+        area_wanted[3] = area_wanted[3] - (area_wanted[3] - area_ref[1])%(self.grid)
 
         ## updating dic and class obj
         variable_dic['area'] = area_wanted
         self.grid_bounds = area_wanted
-        self.lat = np.arange(self.grid_bounds[0], self.grid_bounds[2] - 0.25, -0.25)
-        self.lon = np.arange(self.grid_bounds[1], self.grid_bounds[3] + 0.25, 0.25)
+        self.lat = np.arange(self.grid_bounds[0], self.grid_bounds[2] - self.grid, -self.grid)
+        self.lon = np.arange(self.grid_bounds[1], self.grid_bounds[3] + self.grid, self.grid)
         print('Area is :', area_wanted)
         # print('Please ensure that the area returned by ECMWF correspond to this Area. Otherwise correct it by modifying self.area afterwards.')
 
@@ -109,7 +114,7 @@ class Wind_data:
         self.grib_name = 'interim_' + format_time(self.years[0]) + 'to' + format_time(self.years[1]) + '_'+ self.name + '.grib'
 
     def Write_spec(self, name):
-        dict = {'name' : self.name, 'area' : self.grid_bounds, 'years' : self.years}
+        dict = {'name' : self.name, 'area' : self.grid_bounds, 'years' : self.years, 'grid' : self.grid}
         if os.path.isfile(name) == True:
             print(name + ' already exists')
         else:
@@ -122,8 +127,9 @@ class Wind_data:
         self.name = dict_from_file['name']
         self.grid_bounds = dict_from_file['area']
         self.years = dict_from_file['years']
-        self.lat = np.arange(self.grid_bounds[0], self.grid_bounds[2] - 0.25, -0.25)
-        self.lon = np.arange(self.grid_bounds[1], self.grid_bounds[3] + 0.25, 0.25)
+        self.grid = dict_from_file['grid']
+        self.lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - self.grid, -self.grid)
+        self.lon = np.arange(self.grid_bounds[0][1], self.grid_bounds[1][1] + self.grid, self.grid)
 
     def Extract_UV(self, path_to_wgrib = None):
         if path_to_wgrib != None:
