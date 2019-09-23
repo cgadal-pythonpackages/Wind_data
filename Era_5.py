@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-23T14:13:25+02:00
+# @Last modified time: 2019-09-23T15:16:44+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-23T14:13:25+02:00
+# @Last modified time: 2019-09-23T15:16:44+02:00
 
 import cdsapi
 import os
@@ -216,7 +216,7 @@ class Wind_data:
         for y in range(self.Uwind.shape[1]):
             for x in range(self.Uwind.shape[0]):
                 print('Point number' + str(i))
-                pdfQ, Angle, _  = PDF_flux(self.Qstrength[x,y,:], self.Qorientation[x,y,:])
+                pdfQ, Angle  = PDF_flux(self.Qstrength[x,y,:], self.Qorientation[x,y,:])
                 fig = plt.figure()
                 flux_rose(Angle[:-1],pdfQ, fig = fig, **kwargs)
                 plt.savefig(dir + '/flux_rose_'+ format_string.format(i+1) + ext)
