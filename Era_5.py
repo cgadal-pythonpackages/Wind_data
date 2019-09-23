@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-23T14:09:22+02:00
+# @Last modified time: 2019-09-23T14:13:25+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-23T14:09:22+02:00
+# @Last modified time: 2019-09-23T14:13:25+02:00
 
 import cdsapi
 import os
@@ -114,7 +114,7 @@ class Wind_data:
         self.grib_name = 'interim_' + format_time(self.years[0]) + 'to' + format_time(self.years[1]) + '_'+ self.name + '.grib'
 
     def Write_spec(self, name):
-        dict = {'name' : self.name, 'area' : self.grid_bounds, 'years' : self.years, 'grid' : self.grid}
+        dict = {'name' : self.name, 'area' : self.grid_bounds, 'years' : self.years}
         if os.path.isfile(name) == True:
             print(name + ' already exists')
         else:
@@ -128,8 +128,8 @@ class Wind_data:
         self.grid_bounds = dict_from_file['area']
         self.years = dict_from_file['years']
         self.grid = dict_from_file['grid']
-        self.lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - self.grid, -self.grid)
-        self.lon = np.arange(self.grid_bounds[0][1], self.grid_bounds[1][1] + self.grid, self.grid)
+        self.lat = np.arange(self.grid_bounds[0], self.grid_bounds[2] - self.grid, -self.grid)
+        self.lon = np.arange(self.grid_bounds[1], self.grid_bounds[3] + self.grid, self.grid)
 
     def Extract_UV(self, path_to_wgrib = None):
         if path_to_wgrib != None:
