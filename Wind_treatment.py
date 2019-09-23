@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-17T17:32:35+02:00
+# @Last modified time: 2019-09-23T19:16:59+02:00
 
 
 
@@ -114,4 +114,4 @@ def PDF_flux(direction, qs):
         pdfQ[n] = np.nansum(qs[ind])
 
     Angle = Angle + ((Angle[1]-Angle[0])/2)%360
-    return pdfQ, Angle
+    return pdfQ/pdfQ.sum(), Angle[:-1]
