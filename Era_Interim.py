@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-20T13:53:24+02:00
+# @Last modified time: 2019-09-23T13:37:37+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -36,15 +36,16 @@ class Wind_data:
     _ date de début et date de fin de la forme AAAA/MM/JJ
     """
 
-    def __init__(self, name, grid_bounds, years):
+    def __init__(self, name, grid_bounds, years, grid = 0.75):
         self.name = name
         self.grid_bounds = grid_bounds
         self.years = years
         self.grib_name = None
         self.coordinates = None
+        self.grid = grid
         if self.grid_bounds != None:
-            self.lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - 0.75, -0.75)
-            self.lon = np.arange(self.grid_bounds[0][1], self.grid_bounds[1][1] + 0.75, 0.75)
+            self.lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - self.grid, -self.grid)
+            self.lon = np.arange(self.grid_bounds[0][1], self.grid_bounds[1][1] + self.grid, self.grid)
 
         ####### numpy arrays [3D arrays, x,y,t]
         self.Uwind = None
@@ -61,10 +62,10 @@ class Wind_data:
             self.Update_grib_name()
 
             if quick_option == True :
-                area_wanted[0][0] = area_wanted[0][0] - (area_wanted[0][0] - area_ref[0])%(0.75)
-                area_wanted[0][1] = area_wanted[0][1] - (area_wanted[0][1] - area_ref[1])%(0.75)
-                area_wanted[1][0] = area_wanted[1][0] - (area_wanted[1][0] - area_ref[0])%(0.75)
-                area_wanted[1][1] = area_wanted[1][1] - (area_wanted[1][1] - area_ref[1])%(0.75)
+                area_wanted[0][0] = area_wanted[0][0] - (area_wanted[0][0] - area_ref[0])%(self.grid)
+                area_wanted[0][1] = area_wanted[0][1] - (area_wanted[0][1] - area_ref[1])%(self.grid)
+                area_wanted[1][0] = area_wanted[1][0] - (area_wanted[1][0] - area_ref[0])%(self.grid)
+                area_wanted[1][1] = area_wanted[1][1] - (area_wanted[1][1] - area_ref[1])%(self.grid)
 
 
             area = format_area(area_wanted[0]) + '/' + format_area(area_wanted[1])
@@ -108,7 +109,7 @@ class Wind_data:
 
                 #Specify time and space grids
                     'step'      : "0",
-                    'grid'      : "0.75/0.75",
+                    'grid'      : str(self.grid) + '/' + str(self.grid),
                     'area'      : area, # in N/W/S/E, Un point Nord OUest, un Sud Est, en degrés décimaux
                     'time'      : "00/06/12/18", #Hours of the day
                     'date'      : date,
@@ -152,8 +153,8 @@ class Wind_data:
         self.name = dict_from_file['name']
         self.grid_bounds = dict_from_file['area']
         self.years = dict_from_file['years']
-        self.lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - 0.75, -0.75)
-        self.lon = np.arange(self.grid_bounds[0][1], self.grid_bounds[1][1] + 0.75, 0.75)
+        self.lat = np.arange(self.grid_bounds[0][0], self.grid_bounds[1][0] - self.grid, -self.grid)
+        self.lon = np.arange(self.grid_bounds[0][1], self.grid_bounds[1][1] + self.grid, self.grid)
 
 
     def Extract_UV(self, path_to_wgrib = None):
