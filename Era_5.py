@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-23T19:17:23+02:00
+# @Last modified time: 2019-10-09T10:37:03+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-23T19:17:23+02:00
+# @Last modified time: 2019-10-09T10:37:03+02:00
 
 import cdsapi
 import os
@@ -69,7 +69,7 @@ class Wind_data:
 
         if self.grid is None:
             if 'grid' in variable_dic.keys():
-                self.grid = grid[0]
+                self.grid = variable_dic['grid'][0]
             else:
                 sel.grid = 0.25
         # Defining years for data, either from dic variable
@@ -225,7 +225,7 @@ class Wind_data:
 
 
     def Update_coordinates(self):
-        self.coordinates = np.zeros((self.lat.size*self.lon.size,2))
+        self.coordinates = np.zeros((self.lat.size*self.lon.size, 2))
         k = 0
         for i in range(self.lat.size):
             for j in range(self.lon.size):
