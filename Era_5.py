@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-11T10:41:10+02:00
+# @Last modified time: 2019-10-11T10:49:28+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-11T10:41:10+02:00
+# @Last modified time: 2019-10-11T10:49:28+02:00
 
 import cdsapi
 import os
@@ -116,7 +116,7 @@ class Wind_data:
         self.grib_name = 'interim_' + format_time(self.years[0]) + 'to' + format_time(self.years[1]) + '_'+ self.name + '.grib'
 
     def Write_spec(self, name):
-        dict = {'name' : self.name, 'area' : self.grid_bounds, 'years' : self.years}
+        dict = {'name' : self.name, 'area' : self.grid_bounds, 'years' : self.years, 'grid' : self.grid}
         if os.path.isfile(name) == True:
             print(name + ' already exists')
         else:
