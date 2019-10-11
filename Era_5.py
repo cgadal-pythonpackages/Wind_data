@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-11T14:28:44+02:00
+# @Last modified time: 2019-10-11T14:44:06+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-11T14:28:44+02:00
+# @Last modified time: 2019-10-11T14:44:06+02:00
 
 import cdsapi
 import os
@@ -63,11 +63,11 @@ class Wind_data:
         if Nsplit < 1:
             Nsplit = 1
 
-        # Nitems = len(variable_dic['variable']) * (365.25 * len(variable_dic['month'])/12 * len(variable_dic['day'])/31) \
-        # * len(variable_dic['time']) * len(variable_dic['year'])
-        # if Nitems/Nsplit > 120000:
-        #     Nsplit = round(Nitems/120000) + 1
-        #     print('Request too large. Setting Nsplit =', Nsplit)
+        Nitems = len(variable_dic['variable']) * (365.25 * len(variable_dic['month'])/12 * len(variable_dic['day'])/31) \
+        * len(variable_dic['time']) * len(variable_dic['year'])
+        if Nitems/Nsplit > 120000:
+            Nsplit = round(Nitems/120000) + 1
+            print('Request too large. Setting Nsplit =', Nsplit)
 
         if self.grid is None:
             if 'grid' in variable_dic.keys():
@@ -98,6 +98,13 @@ class Wind_data:
         # Spliting request
         dates = np.array([int(i) for i in variable_dic['year']])
         year_list = [list(map(str,j)) for j in np.array_split(dates, Nsplit)]
+        ##### checking the Nitems for every Nsplit
+        Nitems_list = np.array([len(variable_dic['variable']) * (365.25 * len(variable_dic['month'])/12 * len(variable_dic['day'])/31)*len(variable_dic['time']) * len(i)
+                        for i in year_list])
+        if (Nitems_list > 120000).any():
+            Nsplit = Nsplit + 1
+            year_list = [list(map(str,j)) for j in np.array_split(dates, Nsplit)]
+            
         name_file = []
 
         for years in year_list :
