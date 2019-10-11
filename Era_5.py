@@ -2,17 +2,19 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-09T10:37:03+02:00
+# @Last modified time: 2019-10-11T10:41:10+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-09T10:37:03+02:00
+# @Last modified time: 2019-10-11T10:41:10+02:00
 
 import cdsapi
 import os
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from .Wind_treatment import wind_rose, flux_rose, PDF_flux, Wind_to_flux
 from itertools import islice

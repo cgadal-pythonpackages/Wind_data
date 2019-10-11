@@ -2,12 +2,14 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-09-23T19:17:33+02:00
+# @Last modified time: 2019-10-11T10:41:21+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
 import numpy as np
 from math import atan2
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from .Wind_treatment import wind_rose, flux_rose, PDF_flux, Wind_to_flux
 from itertools import islice
