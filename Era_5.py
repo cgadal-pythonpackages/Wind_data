@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-11T10:49:28+02:00
+# @Last modified time: 2019-10-11T14:22:15+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-11T10:49:28+02:00
+# @Last modified time: 2019-10-11T14:22:15+02:00
 
 import cdsapi
 import os
@@ -73,7 +73,7 @@ class Wind_data:
             if 'grid' in variable_dic.keys():
                 self.grid = variable_dic['grid'][0]
             else:
-                sel.grid = 0.25
+                self.grid = 0.25
         # Defining years for data, either from dic variable
         dates = np.array([int(i) for i in variable_dic['year']])
         self.years = [[dates.min(),1,1], [dates.max(),12,31]]
