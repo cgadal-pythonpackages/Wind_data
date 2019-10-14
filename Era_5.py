@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-14T11:16:07+02:00
+# @Last modified time: 2019-10-14T13:34:28+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-14T11:16:07+02:00
+# @Last modified time: 2019-10-14T13:34:28+02:00
 
 import cdsapi
 import os
@@ -139,7 +139,7 @@ class Wind_data:
         self.years = dict_from_file['years']
         self.grid = dict_from_file['grid']
         self.lat = np.linspace(self.grid_bounds[0], self.grid_bounds[2], abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1)
-        self.lat = np.linspace(self.grid_bounds[1], self.grid_bounds[3], abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1)
+        self.lon = np.linspace(self.grid_bounds[1], self.grid_bounds[3], abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1)
 
     def Extract_UV(self, path_to_wgrib = None):
         if path_to_wgrib != None:
