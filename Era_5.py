@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-11T14:44:06+02:00
+# @Last modified time: 2019-10-14T11:16:07+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-11T14:44:06+02:00
+# @Last modified time: 2019-10-14T11:16:07+02:00
 
 import cdsapi
 import os
@@ -18,6 +18,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from .Wind_treatment import wind_rose, flux_rose, PDF_flux, Wind_to_flux
 from itertools import islice
+from decimal import Decimal
 # from . import Wind_treatment
 
 area_ref = [-17.25,11.25]
@@ -80,16 +81,16 @@ class Wind_data:
 
         ### Puting the required area on the ERA5 grid
         area_wanted = variable_dic['area']
-        area_wanted[0] = area_wanted[0] - (area_wanted[0] - area_ref[0])%(self.grid)
-        area_wanted[1] = area_wanted[1] - (area_wanted[1] - area_ref[1])%(self.grid)
-        area_wanted[2] = area_wanted[2] - (area_wanted[2] - area_ref[0])%(self.grid)
-        area_wanted[3] = area_wanted[3] - (area_wanted[3] - area_ref[1])%(self.grid)
+        area_wanted[0] = area_wanted[0] - float(Decimal(str(area_wanted[0] - area_ref[0]))%Decimal(str(self.grid)))
+        area_wanted[1] = area_wanted[1] - float(Decimal(str(area_wanted[1] - area_ref[1]))%Decimal(str(self.grid)))
+        area_wanted[2] = area_wanted[2] - float(Decimal(str(area_wanted[2] - area_ref[0]))%Decimal(str(self.grid)))
+        area_wanted[3] = area_wanted[3] - float(Decimal(str(area_wanted[3] - area_ref[1]))%Decimal(str(self.grid)))
 
         ## updating dic and class obj
         variable_dic['area'] = area_wanted
         self.grid_bounds = area_wanted
-        self.lat = np.arange(self.grid_bounds[0], self.grid_bounds[2] - self.grid, -self.grid)
-        self.lon = np.arange(self.grid_bounds[1], self.grid_bounds[3] + self.grid, self.grid)
+        self.lat = np.linspace(self.grid_bounds[0], self.grid_bounds[2], abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1)
+        self.lat = np.linspace(self.grid_bounds[1], self.grid_bounds[3], abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1)
         print('Area is :', area_wanted)
         # print('Please ensure that the area returned by ECMWF correspond to this Area. Otherwise correct it by modifying self.area afterwards.')
 
@@ -104,7 +105,7 @@ class Wind_data:
         if (Nitems_list > 120000).any():
             Nsplit = Nsplit + 1
             year_list = [list(map(str,j)) for j in np.array_split(dates, Nsplit)]
-            
+
         name_file = []
 
         for years in year_list :
@@ -137,8 +138,8 @@ class Wind_data:
         self.grid_bounds = dict_from_file['area']
         self.years = dict_from_file['years']
         self.grid = dict_from_file['grid']
-        self.lat = np.arange(self.grid_bounds[0], self.grid_bounds[2] - self.grid, -self.grid)
-        self.lon = np.arange(self.grid_bounds[1], self.grid_bounds[3] + self.grid, self.grid)
+        self.lat = np.linspace(self.grid_bounds[0], self.grid_bounds[2], abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1)
+        self.lat = np.linspace(self.grid_bounds[1], self.grid_bounds[3], abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1)
 
     def Extract_UV(self, path_to_wgrib = None):
         if path_to_wgrib != None:
@@ -194,7 +195,7 @@ class Wind_data:
         self.Uorientation = 0*self.Uwind
 
         self.Ustrength = np.sqrt(self.Uwind**2 + self.Vwind**2)
-        self.Uorientation = (np.arctan2(self.Vwind, self.Uwind) % (2*np.pi) )*180/np.pi
+        self.Uorientation = float(Decimal(str(np.arctan2(self.Vwind, self.Uwind))) % Decimal(str(2*np.pi)))*180/np.pi
 
     def Calculate_fluxes(self, grain_size = 180*10**-6):
         self.Qstrength, self.Qorientation = Wind_to_flux(self.Uorientation, self.Ustrength, grain_size)
