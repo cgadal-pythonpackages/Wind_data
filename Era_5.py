@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-14T13:34:28+02:00
+# @Last modified time: 2019-10-15T13:36:38+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-14T13:34:28+02:00
+# @Last modified time: 2019-10-15T13:36:38+02:00
 
 import cdsapi
 import os
@@ -195,7 +195,8 @@ class Wind_data:
         self.Uorientation = 0*self.Uwind
 
         self.Ustrength = np.sqrt(self.Uwind**2 + self.Vwind**2)
-        self.Uorientation = float(Decimal(str(np.arctan2(self.Vwind, self.Uwind))) % Decimal(str(2*np.pi)))*180/np.pi
+        # self.Uorientation = (np.arctan2(self.Vwind, self.Uwind) % (2*np.pi))*180/np.pi
+        self.Uorientation = (np.arctan2(self.Vwind, self.Uwind)*180/np.pi) % 360
 
     def Calculate_fluxes(self, grain_size = 180*10**-6):
         self.Qstrength, self.Qorientation = Wind_to_flux(self.Uorientation, self.Ustrength, grain_size)
