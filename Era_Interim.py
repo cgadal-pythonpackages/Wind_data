@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-14T13:34:24+02:00
+# @Last modified time: 2019-10-15T17:29:06+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -47,7 +47,7 @@ class Wind_data:
         self.grid = grid
         if self.grid_bounds != None:
             self.lat = np.linspace(self.grid_bounds[0][0], self.grid_bounds[1][0], abs(self.grid_bounds[0][0] - self.grid_bounds[1][0])/self.grid + 1)
-            self.lat = np.linspace(self.grid_bounds[0][1], self.grid_bounds[1][1], abs(self.grid_bounds[0][1] - self.grid_bounds[1][1])/self.grid + 1)
+            self.lon = np.linspace(self.grid_bounds[0][1], self.grid_bounds[1][1], abs(self.grid_bounds[0][1] - self.grid_bounds[1][1])/self.grid + 1)
 
         ####### numpy arrays [3D arrays, x,y,t]
         self.Uwind = None
