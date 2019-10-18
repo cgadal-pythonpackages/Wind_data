@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-15T17:29:06+02:00
+# @Last modified time: 2019-10-18T11:08:52+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -218,7 +218,8 @@ class Wind_data:
         self.Uorientation = 0*self.Uwind
 
         self.Ustrength = np.sqrt(self.Uwind**2 + self.Vwind**2)
-        self.Uorientation = float(Decimal(str(np.arctan2(self.Vwind, self.Uwind))) % Decimal(str(2*np.pi)))*180/np.pi
+        # self.Uorientation = (np.arctan2(self.Vwind, self.Uwind) % (2*np.pi))*180/np.pi
+        self.Uorientation = (np.arctan2(self.Vwind, self.Uwind)*180/np.pi) % 360 #no need to decimal here, because used only to change sign
 
     def Calculate_fluxes(self, grain_size = 180*10**-6):
         self.Qstrength, self.Qorientation = Wind_to_flux(self.Uorientation, self.Ustrength, grain_size)

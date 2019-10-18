@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-15T17:31:21+02:00
+# @Last modified time: 2019-10-16T11:53:21+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-15T17:31:21+02:00
+# @Last modified time: 2019-10-16T11:53:21+02:00
 
 import cdsapi
 import os
