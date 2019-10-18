@@ -2,7 +2,7 @@
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-18T11:08:52+02:00
+# @Last modified time: 2019-10-18T11:15:57+02:00
 
 from ecmwfapi import ECMWFDataServer
 import os
@@ -249,9 +249,9 @@ class Wind_data:
         for y in range(self.Uwind.shape[1]):
             for x in range(self.Uwind.shape[0]):
                 print('Point number' + str(i))
-                pdfQ, Angle  = PDF_flux(self.Qstrength[x,y,:], self.Qorientation[x,y,:])
+                pdfQ, Angle  = PDF_flux(self.Qorientation[x,y,:],self.Qstrength[x,y,:])
                 fig = plt.figure()
-                flux_rose(Angle,pdfQ, fig = fig, **kwargs)
+                flux_rose(Angle, pdfQ, fig = fig, **kwargs)
                 plt.savefig(dir + '/flux_rose_'+ format_string.format(i+1) + ext)
                 plt.close('all')
                 i = i + 1
