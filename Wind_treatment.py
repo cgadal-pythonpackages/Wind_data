@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-23T13:43:04+02:00
+# @Last modified time: 2019-10-23T13:47:18+02:00
 
 
 
@@ -116,6 +116,9 @@ def Make_threshold_distribution(direction, r):
     ut = []
     for i in range(bin_edges.size - 1):
         vel = r[(direction >= bin_edges[i]) & (direction < bin_edges[i+1])]
-        ut.append(np.mean(vel[vel > 1]))
+        if vel[vel >= 1].size == 0:
+            ut.append(1)
+        else:
+            ut.append(np.mean(vel[vel > 1]))
     a = np.array([np.mean(bin_edges[i:i+2]) for i in range(bin_edges.size -1)])
     return np.array(ut), a
