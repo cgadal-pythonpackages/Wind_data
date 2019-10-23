@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-23T13:34:32+02:00
+# @Last modified time: 2019-10-23T13:38:35+02:00
 
 
 
@@ -96,6 +96,7 @@ def Wind_to_flux(wind_direction, wind_strength, grain_size, z_0 = 1e-3, z = 10, 
         else:
             qs = np.maximum(0,(25*(rhoair/rhosed)*np.sqrt(grain_size/g))*(u**2-ut**2))
             r = np.maximum(1, (25*(rhoair/rhosed)*np.sqrt(grain_size/g))*(u**2-ut**2))
+            return qs, direction, r
 
 
 def PDF_flux(direction, qs):
