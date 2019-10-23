@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-18T11:16:10+02:00
+# @Last modified time: 2019-10-23T16:57:07+02:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-18T11:16:10+02:00
+# @Last modified time: 2019-10-23T16:57:07+02:00
 
 import cdsapi
 import os
@@ -198,8 +198,8 @@ class Wind_data:
         # self.Uorientation = (np.arctan2(self.Vwind, self.Uwind) % (2*np.pi))*180/np.pi
         self.Uorientation = (np.arctan2(self.Vwind, self.Uwind)*180/np.pi) % 360 #no need to decimal here, because used only to change sign
 
-    def Calculate_fluxes(self, grain_size = 180*10**-6):
-        self.Qstrength, self.Qorientation = Wind_to_flux(self.Uorientation, self.Ustrength, grain_size)
+    def Calculate_fluxes(self, grain_size = 180*10**-6, **kwargs):
+        self.Qstrength, self.Qorientation = Wind_to_flux(self.Uorientation, self.Ustrength, grain_size, **kwargs)
 
     def Write_wind_rose(self, dir, ext = '.pdf', **kwargs):
         if os.path.isdir(dir) == False:
