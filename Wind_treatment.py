@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-23T13:52:32+02:00
+# @Last modified time: 2019-12-03T11:24:25+01:00
 
 
 
@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 from windrose import WindroseAxes
 
-def wind_rose(Angle, Intensity, place = None, fig = None, **kwargs):
+def wind_rose(Angle, Intensity, place = None, fig = None, legend = False, coord = False, **kwargs):
     #### Angle : Orientation of the wind
     #### Intensity : Intensity of tje wind
     #### Nbin : nbins in terms of velocity
@@ -31,10 +31,16 @@ def wind_rose(Angle, Intensity, place = None, fig = None, **kwargs):
         ax.set_position(place, which='both')
     # bars = ax.bar(Angle, Intensity, normed=True, opening=1, edgecolor='k', nsector = Nsector, bins = Nbin, cmap = cmap)
     Angle = (90 - Angle)%360
-    bars = ax.bar(Angle, Intensity,  **kwargs)
-    ax.set_legend()
+    bars = ax.bar(Angle, Intensity,  **kwargs, zorder = 20)
+    ax.set_axisbelow(True)
+    if legend:
+        ax.set_legend()
+    if not coord :
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+    return ax
 
-def flux_rose(Angle, PdfQ_tp, withaxe = 0, place = None, fig = None, color = 'green', nsector = 20, opening = 0.6):
+def flux_rose(Angle, PdfQ_tp, withaxe = 0, place = None, fig = None, nsector = 20, **kwargs):
     #### pdfQ flux distribution
     #### Corresponding angles in degree
     #### N bin nuber of bins for the rose
@@ -63,12 +69,13 @@ def flux_rose(Angle, PdfQ_tp, withaxe = 0, place = None, fig = None, color = 'gr
     # bars = ax.bar(Angle, Intensity, normed=True, opening=1, edgecolor='k', nsector = Nsector, bins = Nbin, cmap = cmap)
     Qangle = (90 - Qangle)%360
     if Qangle.size !=0:
-        bars = ax.bar(Qangle, Qdat, color = color, nsector = nsector, opening = opening)
+        bars = ax.bar(Qangle, Qdat, nsector = nsector, **kwargs)
         ax.set_rmin(0)
-        plt.plot(0,0,'.', color = 'w', zorder = 100, markersize = 4)
+        plt.plot(0,0,'.', color = 'w', zorder = 100, markersize = 3)
         ax.set_yticklabels(['{:.1f}'.format(float(i.get_text())*precision_flux) for i in ax.get_yticklabels()])
         if withaxe != 1:
             ax.set_yticks([])
+    return ax
 
 def Wind_to_flux(wind_direction, wind_strength, grain_size, z_0 = 1e-3, z = 10, rhoair = 1.293, rhosed = 2.55e3, threshold = False):
         # Data : first column are directions, second column are speed
@@ -106,7 +113,8 @@ def PDF_flux(direction, qs):
 
 
 def Make_angular_PDF(quantity, weight):
-    hist, bin_edges = np.histogram(quantity, bins = np.linspace(0, 360, 361), density = 1, weights = weight)
+    inds = ~np.logical_or(np.isnan(quantity), np.isnan(weight))
+    hist, bin_edges = np.histogram(quantity[inds], bins = np.linspace(0, 360, 361), density = 1, weights = weight[inds])
     a = np.array([np.mean(bin_edges[i:i+2]) for i in range(bin_edges.size -1)])
     return hist, a
 

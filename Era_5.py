@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-23T16:57:07+02:00
+# @Last modified time: 2019-11-04T13:00:17+01:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-10-23T16:57:07+02:00
+# @Last modified time: 2019-11-04T13:00:17+01:00
 
 import cdsapi
 import os
@@ -117,8 +117,7 @@ class Wind_data:
             variable_dic['year'] = years
             c.retrieve('reanalysis-era5-single-levels', variable_dic, name_file[-1])
 
-        if Nsplit > 1:
-            os.system('cat ' + ''.join([i + ' ' for i in name_file]) + '> ' + self.grib_name)
+        os.system('cat ' + ''.join([i + ' ' for i in name_file]) + '> ' + self.grib_name)
 
     def Update_grib_name(self):
         self.grib_name = 'interim_' + format_time(self.years[0]) + 'to' + format_time(self.years[1]) + '_'+ self.name + '.grib'
