@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-11-04T13:00:17+01:00
+# @Last modified time: 2019-12-09T13:52:13+01:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-11-04T13:00:17+01:00
+# @Last modified time: 2019-12-09T13:52:13+01:00
 
 import cdsapi
 import os
@@ -41,8 +41,9 @@ class Wind_data:
     _ date de début et date de fin de la forme AAAA/MM/JJ
     """
 
-    def __init__(self, name):
+    def __init__(self, name, type = 'reanalysis-era5-single-levels'):
         self.name = name
+        self.type = type  # should be either reanalysis-era5-single-levels or 'reanalysis-era5-land' for now
         self.grid_bounds = None
         self.years = None
         self.grib_name = None
@@ -115,7 +116,7 @@ class Wind_data:
             c = cdsapi.Client()
 
             variable_dic['year'] = years
-            c.retrieve('reanalysis-era5-single-levels', variable_dic, name_file[-1])
+            c.retrieve(self.type, variable_dic, name_file[-1])
 
         os.system('cat ' + ''.join([i + ' ' for i in name_file]) + '> ' + self.grib_name)
 
@@ -123,7 +124,7 @@ class Wind_data:
         self.grib_name = 'interim_' + format_time(self.years[0]) + 'to' + format_time(self.years[1]) + '_'+ self.name + '.grib'
 
     def Write_spec(self, name):
-        dict = {'name' : self.name, 'area' : self.grid_bounds, 'years' : self.years, 'grid' : self.grid}
+        dict = {'name' : self.name, 'area' : self.grid_bounds, 'years' : self.years, 'grid' : self.grid, 'type' : self.type}
         if os.path.isfile(name) == True:
             print(name + ' already exists')
         else:
@@ -139,6 +140,10 @@ class Wind_data:
         self.grid = dict_from_file['grid']
         self.lat = np.linspace(self.grid_bounds[0], self.grid_bounds[2], abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1)
         self.lon = np.linspace(self.grid_bounds[1], self.grid_bounds[3], abs(self.grid_bounds[1] - self.grid_bounds[3])/self.grid + 1)
+        if 'type' not in dict_from_file.keys():
+            self.type = 'reanalysis-era5-single-levels'
+        else:
+            self.type = 'reanalysis-era5-land'
 
     def Extract_UV(self, path_to_wgrib = None):
         if path_to_wgrib != None:
