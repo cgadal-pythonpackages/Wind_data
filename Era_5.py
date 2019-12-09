@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-09T13:57:43+01:00
+# @Last modified time: 2019-12-09T14:04:38+01:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-09T13:57:43+01:00
+# @Last modified time: 2019-12-09T14:04:38+01:00
 
 import cdsapi
 import os
@@ -68,8 +68,8 @@ class Wind_data:
 
         Nitems = len(variable_dic['variable']) * (365.25 * len(variable_dic['month'])/12 * len(variable_dic['day'])/31) \
         * len(variable_dic['time']) * len(variable_dic['year'])
-        if Nitems/Nsplit > 120000:
-            Nsplit = round(Nitems/120000) + 1
+        if Nitems/Nsplit > Nitems_max:
+            Nsplit = round(Nitems/Nitems_max) + 1
             print('Request too large. Setting Nsplit =', Nsplit)
 
         if self.grid is None:
