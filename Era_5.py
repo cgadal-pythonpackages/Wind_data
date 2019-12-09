@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-09T13:52:13+01:00
+# @Last modified time: 2019-12-09T13:57:43+01:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-09T13:52:13+01:00
+# @Last modified time: 2019-12-09T13:57:43+01:00
 
 import cdsapi
 import os
@@ -62,6 +62,7 @@ class Wind_data:
 
 
     def Getting_wind_data(self,  variable_dic, Nsplit = 1):
+        Nitems_max = 120000 if type == 'reanalysis-era5-single-levels' else 100000
         if Nsplit < 1:
             Nsplit = 1
 
