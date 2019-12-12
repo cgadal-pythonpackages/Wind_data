@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-11T10:56:18+01:00
+# @Last modified time: 2019-12-12T15:35:28+01:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-11T10:56:18+01:00
+# @Last modified time: 2019-12-12T15:35:28+01:00
 
 import cdsapi
 import os
@@ -75,7 +75,7 @@ class Wind_data:
         if self.grid is None:
             if 'grid' in variable_dic.keys():
                 self.grid = variable_dic['grid'][0]
-            elif type == 'reanalysis-era5-land':
+            elif self.type == 'reanalysis-era5-land':
                 self.grid = 0.1
             else:
                 self.grid = 0.25
