@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-12T15:36:12+01:00
+# @Last modified time: 2019-12-12T15:37:31+01:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-12T15:36:12+01:00
+# @Last modified time: 2019-12-12T15:37:31+01:00
 
 import cdsapi
 import os
@@ -21,7 +21,7 @@ from itertools import islice
 from decimal import Decimal
 # from . import Wind_treatment
 
-area_ref = [-17.25,11.25]
+area_ref = [0, 0]
 
 def format_time(date):
     return '{:04d}'.format(date[0]) + '-' + '{:02d}'.format(date[1]) + '-' + '{:02d}'.format(date[2])
