@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-12T15:37:31+01:00
+# @Last modified time: 2019-12-16T09:26:20+01:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-12T15:37:31+01:00
+# @Last modified time: 2019-12-16T09:26:20+01:00
 
 import cdsapi
 import os
@@ -93,8 +93,8 @@ class Wind_data:
         ## updating dic and class obj
         variable_dic['area'] = area_wanted
         self.grid_bounds = area_wanted
-        self.lat = np.linspace(self.grid_bounds[0], self.grid_bounds[2], abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1)
-        self.lon = np.linspace(self.grid_bounds[1], self.grid_bounds[3], abs(self.grid_bounds[1] - self.grid_bounds[3])/self.grid + 1)
+        self.lat = np.linspace(self.grid_bounds[0], self.grid_bounds[2], round(abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1, 2))
+        self.lon = np.linspace(self.grid_bounds[1], self.grid_bounds[3], round(abs(self.grid_bounds[1] - self.grid_bounds[3])/self.grid + 1, 2))
         print('Area is :', area_wanted)
         # print('Please ensure that the area returned by ECMWF correspond to this Area. Otherwise correct it by modifying self.area afterwards.')
 
