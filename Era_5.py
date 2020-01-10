@@ -2,13 +2,13 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-16T09:28:12+01:00
+# @Last modified time: 2020-01-10T15:48:42+01:00
 
 # @Author: gadal
 # @Date:   2018-11-09T14:00:41+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-16T09:28:12+01:00
+# @Last modified time: 2020-01-10T15:48:42+01:00
 
 import cdsapi
 import os
@@ -93,8 +93,8 @@ class Wind_data:
         ## updating dic and class obj
         variable_dic['area'] = area_wanted
         self.grid_bounds = area_wanted
-        self.lat = np.linspace(self.grid_bounds[0], self.grid_bounds[2], round(abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1, 2))
-        self.lon = np.linspace(self.grid_bounds[1], self.grid_bounds[3], round(abs(self.grid_bounds[1] - self.grid_bounds[3])/self.grid + 1, 2))
+        self.lat = np.linspace(self.grid_bounds[0], self.grid_bounds[2], int(round(abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1, 2)))
+        self.lon = np.linspace(self.grid_bounds[1], self.grid_bounds[3], int(round(abs(self.grid_bounds[1] - self.grid_bounds[3])/self.grid + 1, 2)))
         print('Area is :', area_wanted)
         # print('Please ensure that the area returned by ECMWF correspond to this Area. Otherwise correct it by modifying self.area afterwards.')
 
@@ -141,8 +141,8 @@ class Wind_data:
         self.grid_bounds = dict_from_file['area']
         self.years = dict_from_file['years']
         self.grid = dict_from_file['grid']
-        self.lat = np.linspace(self.grid_bounds[0], self.grid_bounds[2], round(abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1, 2))
-        self.lon = np.linspace(self.grid_bounds[1], self.grid_bounds[3], round(abs(self.grid_bounds[1] - self.grid_bounds[3])/self.grid + 1, 2))
+        self.lat = np.linspace(self.grid_bounds[0], self.grid_bounds[2], int(round(abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1, 2)))
+        self.lon = np.linspace(self.grid_bounds[1], self.grid_bounds[3], int(round(abs(self.grid_bounds[1] - self.grid_bounds[3])/self.grid + 1, 2)))
         if 'type' not in dict_from_file.keys():
             self.type = 'reanalysis-era5-single-levels'
         else:
