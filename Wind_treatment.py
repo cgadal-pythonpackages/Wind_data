@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2019-12-03T11:24:25+01:00
+# @Last modified time: 2020-07-06T12:22:13+02:00
 
 
 
@@ -93,7 +93,7 @@ def Wind_to_flux(wind_direction, wind_strength, grain_size, z_0 = 1e-3, z = 10, 
         # d = 180e-6;                   % grain diameter [m].
         u = speed*kappa/np.log(z/z_0)      # Shear velocity  [m/s] fron the law of the wall
         g = 9.81                     # Gravitational acceleration [m/s^{-2}].
-        ut = 0.1 * np.sqrt((rhosed-rhoair)*g*grain_size/rhoair)
+        ut = 0.01 * np.sqrt((rhosed-rhoair)*g*grain_size/rhoair)
 
         ######## flux
         # qs = np.maximum(0,((ut*rhoair)/(rhosed *grain_size))*(u**2-ut**2))
@@ -109,7 +109,8 @@ def Wind_to_flux(wind_direction, wind_strength, grain_size, z_0 = 1e-3, z = 10, 
 def PDF_flux(direction, qs):
     # direction : flux direction
     # qs : flux intensity
-     return Make_angular_PDF(direction, qs)
+    direction = direction%360
+    return Make_angular_PDF(direction, qs)
 
 
 def Make_angular_PDF(quantity, weight):
