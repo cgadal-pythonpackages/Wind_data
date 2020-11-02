@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T14:50:48+01:00
+# @Last modified time: 2020-11-02T14:56:52+01:00
 
 import cdsapi
 import os
@@ -122,7 +122,7 @@ class Wind_data:
             print('remove_netcdf is TRUE but save_to_npy is FALSE so data would be lost. Erasing canceled, netcdf files preserved.')
         #
         #### Writing informations to spec file
-        self.Write_spec_to_txt(file)
+        self.Save_spec_to_txt(file)
 
     def Load_netcdf(self, name_files, save_to_npy = False):
         self.Uwind = []
@@ -144,7 +144,7 @@ class Wind_data:
     def Save_spec_to_txt(self, name):
         Pars_to_save = ['name', 'type', 'years', 'latitude', 'longitude', 'file_names']
         sub_dir = { i: getattr(self, i) for i in list_par_to_save}
-        if os.path.isfile(name) == True:
+        if os.path.isfile(name):
             print(name + ' already exists')
         else:
             with open(name,"w") as f:
@@ -167,7 +167,7 @@ class Wind_data:
         # file_format is 'npy' or 'txt'
         # system_coordinates is cartesian or polar
         points = np.array(points)
-        if system_coordinates = 'polar':
+        if system_coordinates == 'polar':
             self.Cartesian_to_polar()
         for i, coords in points:
             ## if for referencing point system
@@ -182,7 +182,7 @@ class Wind_data:
             # if for data coordinate system
             if system_coordinates == 'cartesian':
                 data_to_write = [self.Uwind[lat_ind, lon_ind, :], self.Vwind[lat_ind, lon_ind, :]]
-            elif system_coordinates == 'cartesian':
+            elif system_coordinates == 'polar':
                 data_to_write = [self.Ustrength[lat_ind, lon_ind, :], self.Uorientation[lat_ind, lon_ind, :]]
             #
             # if for saved file format
@@ -202,7 +202,7 @@ class Wind_data:
 ########################### Small functions
     def Save_basic(self):
         Pars_to_save = ['Uwind', 'Vwind', 'time', 'lon', 'lat']
-        self.Save_Data(list, 'Data.npy')
+        self.Save_Data(Pars_to_save, 'Data.npy')
 
     def Save_Data(self, Pars_to_save, name):
         sub_dir = { i: getattr(self, i) for i in list_par_to_save}
