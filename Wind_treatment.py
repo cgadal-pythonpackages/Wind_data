@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T15:33:05+01:00
+# @Last modified time: 2020-11-02T15:40:19+01:00
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,7 +10,7 @@ from matplotlib.patches import Circle
 from windrose import WindroseAxes
 from scipy.stats import binned_statistic
 # import xhistogram.core as xh
-import .xhistogram.core as xh
+import xhistogram_perso.core as xh
 
 def wind_rose(Angle, Intensity, place = None, fig = None, legend = False, coord = False, **kwargs):
     #### Angle : Orientation of the wind
