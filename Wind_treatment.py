@@ -2,14 +2,14 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-07-06T12:22:13+02:00
-
-
+# @Last modified time: 2020-10-30T11:19:14+01:00
 
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 from windrose import WindroseAxes
+from scipy.stats import binned_statistic
+import xhistogram.core as xh
 
 def wind_rose(Angle, Intensity, place = None, fig = None, legend = False, coord = False, **kwargs):
     #### Angle : Orientation of the wind
@@ -93,7 +93,8 @@ def Wind_to_flux(wind_direction, wind_strength, grain_size, z_0 = 1e-3, z = 10, 
         # d = 180e-6;                   % grain diameter [m].
         u = speed*kappa/np.log(z/z_0)      # Shear velocity  [m/s] fron the law of the wall
         g = 9.81                     # Gravitational acceleration [m/s^{-2}].
-        ut = 0.01 * np.sqrt((rhosed-rhoair)*g*grain_size/rhoair)
+        # ut = 0.01 * np.sqrt((rhosed-rhoair)*g*grain_size/rhoair)
+        ut = 0.1*np.sqrt((rhosed-rhoair)*g*grain_size/rhoair)
 
         ######## flux
         # qs = np.maximum(0,((ut*rhoair)/(rhosed *grain_size))*(u**2-ut**2))
@@ -105,7 +106,6 @@ def Wind_to_flux(wind_direction, wind_strength, grain_size, z_0 = 1e-3, z = 10, 
             r = np.maximum(1, u/ut)
             return qs, direction, r
 
-
 def PDF_flux(direction, qs):
     # direction : flux direction
     # qs : flux intensity
@@ -113,21 +113,22 @@ def PDF_flux(direction, qs):
     return Make_angular_PDF(direction, qs)
 
 
-def Make_angular_PDF(quantity, weight):
-    inds = ~np.logical_or(np.isnan(quantity), np.isnan(weight))
-    hist, bin_edges = np.histogram(quantity[inds], bins = np.linspace(0, 360, 361), density = 1, weights = weight[inds])
-    a = np.array([np.mean(bin_edges[i:i+2]) for i in range(bin_edges.size -1)])
-    return hist, a
+# def Make_angular_PDF(quantity, weight):
+#     inds = ~np.logical_or(np.isnan(quantity), np.isnan(weight))
+#     hist, bin_edges = np.histogram(quantity[inds], bins = np.linspace(0, 360, 361), density = 1, weights = weight[inds])
+#     a = np.array([np.mean(bin_edges[i:i+2]) for i in range(bin_edges.size -1)])
+#     return hist, a
 
+def Make_angular_PDF(angles, weight):
+    bin_edges = np.linspace(0, 360, 361)
+    hist = xh.histogram(angles, bins = bin_edges, density = 1, weights = weight, axis = -1)
+    return hist, bin_edges
 
 def Make_threshold_distribution(direction, r):
     bin_edges = np.linspace(0, 360, 361)
-    ut = []
-    for i in range(bin_edges.size - 1):
-        vel = r[(direction >= bin_edges[i]) & (direction < bin_edges[i+1])]
-        if vel[vel >= 1].size == 0:
-            ut.append(1)
-        else:
-            ut.append(np.mean(vel[vel >= 1]))
-    a = np.array([np.mean(bin_edges[i:i+2]) for i in range(bin_edges.size -1)])
-    return np.array(ut), a
+    hist = xh.histogram(direction, bins = bin_edges, weights = r, axis = -1)
+    counts = xh.histogram(direction, bins = bin_edges, axis = -1)
+    bin_centers = np.array([np.mean(bin_edges[i:i+2]) for i in range(bin_edges.size -1)])
+    hist[counts == 0] = 1
+    counts[counts == 0] = 1
+    return hist/counts, bin_centers
