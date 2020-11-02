@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T15:56:38+01:00
+# @Last modified time: 2020-11-02T15:57:17+01:00
 
 import cdsapi
 import os
@@ -106,7 +106,7 @@ class Wind_data:
         for years in year_list :
             string = years[0] + 'to' + years[-1]
             print(string)
-            self.file_names.append(Names[self.type] + string + '_' + self.name + '.' + self.format)
+            self.file_names.append(Names[self.type] + string + '_' + self.name + '.netcdf')
             c = cdsapi.Client()
             variable_dic['year'] = years
             c.retrieve(self.type, variable_dic, self.file_names[-1])
