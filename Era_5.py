@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T17:55:37+01:00
+# @Last modified time: 2020-11-02T17:57:44+01:00
 
 import cdsapi
 import os
@@ -143,7 +143,7 @@ class Wind_data:
 
     def Save_spec_to_txt(self, name):
         Pars_to_save = ['name', 'type', 'years', 'latitude', 'longitude', 'file_names']
-        sub_dir = { i: getattr(self, i) for i in list_par_to_save}
+        sub_dir = { i: getattr(self, i) for i in Pars_to_save}
         if os.path.isfile(name):
             print(name + ' already exists')
         else:
@@ -217,7 +217,7 @@ class Wind_data:
     def Load_Basic(self):
         dic = 'Data.npy'
         self.Load_Data(dic)
-        
+
 ########################### Google earth functions
     def Update_coordinates(self):
         LAT, LON = np.meshgrid(self.latitude, self.longitude)
