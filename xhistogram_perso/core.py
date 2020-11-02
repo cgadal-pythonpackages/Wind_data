@@ -1,3 +1,11 @@
+# @Author: gadal
+# @Date:   2020-11-02T15:26:23+01:00
+# @Email:  gadal@ipgp.fr
+# @Last modified by:   gadal
+# @Last modified time: 2020-11-02T15:47:16+01:00
+
+
+
 """
 Numpy API for xhistogram.
 """
@@ -60,7 +68,8 @@ def _determine_block_chunks(bin_indices, block_size):
         except AttributeError:
             # automatically pick a chunk size
             # this a a heueristic without much basis
-            _MAX_CHUNK_SIZE = 10_000_000
+            # _MAX_CHUNK_SIZE = 10_000_000
+            _MAX_CHUNK_SIZE = 10000000
             block_size = min(_MAX_CHUNK_SIZE // N, M)
     assert isinstance(block_size, int)
     num_chunks = M // block_size
