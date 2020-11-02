@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T16:48:51+01:00
+# @Last modified time: 2020-11-02T16:49:20+01:00
 
 import cdsapi
 import os
@@ -139,7 +139,7 @@ class Wind_data:
                 self.longitudes = file_temp.variables['longitude'][:]
 
         self.Uwind, self.Vwind = np.array(self.Uwind), np.array(self.Uwind)
-        self.time = self.Convert_time(self.time)
+        self.time = Convert_time(self.time)
         self.Save_basic()
 
     def Save_spec_to_txt(self, name):
