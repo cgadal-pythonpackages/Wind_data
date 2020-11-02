@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T18:01:18+01:00
+# @Last modified time: 2020-11-02T18:03:48+01:00
 
 import cdsapi
 import os
@@ -135,8 +135,8 @@ class Wind_data:
             self.Vwind.append(np.moveaxis(np.copy(file_temp.variables['u10'][:]), 0, -1))
             self.time.append(np.copy(file_temp.variables['time'][:]))
             if i == 0:
-                self.latitude = file_temp.variables['latitude'][:]
-                self.longitude = file_temp.variables['longitude'][:]
+                self.latitude = np.copy(file_temp.variables['latitude'][:])
+                self.longitude = nop.copy(file_temp.variables['longitude'][:])
             file_temp.close()
         #
         self.Uwind, self.Vwind, self.time = np.concatenate(self.Uwind, axis = -1), np.concatenate(self.Uwind, axis = -1), np.concatenate(self.time, axis = -1)
