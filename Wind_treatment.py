@@ -2,15 +2,15 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T15:43:10+01:00
+# @Last modified time: 2020-11-02T15:54:52+01:00
 
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 from windrose import WindroseAxes
 from scipy.stats import binned_statistic
-# import xhistogram.core as xh
-import xhistogram_perso.core as xh
+# from xhistogram.core import histogram
+from .xhistogram_perso.core import histogram
 
 def wind_rose(Angle, Intensity, place = None, fig = None, legend = False, coord = False, **kwargs):
     #### Angle : Orientation of the wind
@@ -122,13 +122,13 @@ def PDF_flux(direction, qs):
 
 def Make_angular_PDF(angles, weight):
     bin_edges = np.linspace(0, 360, 361)
-    hist = xh.histogram(angles, bins = bin_edges, density = 1, weights = weight, axis = -1)
+    hist = histogram(angles, bins = bin_edges, density = 1, weights = weight, axis = -1)
     return hist, bin_edges
 
 def Make_threshold_distribution(direction, r):
     bin_edges = np.linspace(0, 360, 361)
-    hist = xh.histogram(direction, bins = bin_edges, weights = r, axis = -1)
-    counts = xh.histogram(direction, bins = bin_edges, axis = -1)
+    hist = histogram(direction, bins = bin_edges, weights = r, axis = -1)
+    counts = histogram(direction, bins = bin_edges, axis = -1)
     bin_centers = np.array([np.mean(bin_edges[i:i+2]) for i in range(bin_edges.size -1)])
     hist[counts == 0] = 1
     counts[counts == 0] = 1

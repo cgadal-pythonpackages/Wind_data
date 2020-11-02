@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T14:56:52+01:00
+# @Last modified time: 2020-11-02T15:55:18+01:00
 
 import cdsapi
 import os
@@ -17,7 +17,7 @@ from scipy.io import netcdf
 from datetime import datetime, timezone, timedelta
 
 area_ref = [0, 0]
-Names = {'reanalysis-era5-single-levels': ERA5, 'reanalysis-era5-land': ERA5Land}
+Names = {'reanalysis-era5-single-levels': 'ERA5', 'reanalysis-era5-land': 'ERA5Land'}
 atmos_epoch = datetime(1900, 1, 1, 0, 0, tzinfo=timezone.utc)
 
 def format_time(date):
