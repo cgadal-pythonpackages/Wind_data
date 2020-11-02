@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T15:55:18+01:00
+# @Last modified time: 2020-11-02T15:56:38+01:00
 
 import cdsapi
 import os
@@ -91,8 +91,6 @@ class Wind_data:
         # self.latitude = np.linspace(self.grid_bounds[0], self.grid_bounds[2], int(round(abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1, 2)))
         # self.longitude = np.linspace(self.grid_bounds[1], self.grid_bounds[3], int(round(abs(self.grid_bounds[1] - self.grid_bounds[3])/self.grid + 1, 2)))
         print('Area is :', area_wanted)
-        #
-        self.Update_file_name()
         #
         # Spliting request
         dates = np.array([int(i) for i in variable_dic['year']])
