@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T17:53:14+01:00
+# @Last modified time: 2020-11-02T17:55:37+01:00
 
 import cdsapi
 import os
@@ -206,7 +206,7 @@ class Wind_data:
 
     def Save_Data(self, Pars_to_save, name):
         sub_dir = { i: getattr(self, i) for i in Pars_to_save}
-        np.save(sub_dir, name)
+        np.save(name, sub_dir)
 
     def Load_Data(self, dic):
         temp = np.load(dic, allow_pickle = True).item()
@@ -214,6 +214,10 @@ class Wind_data:
             setattr(self, key, temp[key])
             temp[key] = None
 
+    def Load_Basic(self):
+        dic = 'Data.npy'
+        self.Load_Data(dic)
+        
 ########################### Google earth functions
     def Update_coordinates(self):
         LAT, LON = np.meshgrid(self.latitude, self.longitude)
