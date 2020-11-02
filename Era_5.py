@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T16:47:11+01:00
+# @Last modified time: 2020-11-02T16:48:51+01:00
 
 import cdsapi
 import os
@@ -139,7 +139,7 @@ class Wind_data:
                 self.longitudes = file_temp.variables['longitude'][:]
 
         self.Uwind, self.Vwind = np.array(self.Uwind), np.array(self.Uwind)
-        self.time = Convert_time(self.time)
+        self.time = self.Convert_time(self.time)
         self.Save_basic()
 
     def Save_spec_to_txt(self, name):
@@ -214,18 +214,6 @@ class Wind_data:
         for key in temp.keys():
             setattr(self, key, temp[key])
             temp[key] = None
-
-    def Convert_time(Times):
-        # convert array of times in hours from epoch to dates
-        return np.array([atmos_epoch + timedelta(hours = i) for i in Times])
-
-    def sub2ind(array_shape, rows, cols):
-        return rows*array_shape[1] + cols
-
-    def ind2sub(array_shape, ind):
-        rows = (ind.astype('int') / array_shape[1])
-        cols = (ind.astype('int') % array_shape[1]) # or numpy.mod(ind.astype('int'), array_shape[1])
-        return (rows, cols)
 
 ########################### Google earth functions
     def Update_coordinates(self):
@@ -311,3 +299,17 @@ class Wind_data:
                 plt.savefig(dir + '/flux_rose_'+ format_string.format(i+1) + ext)
                 plt.close('all')
                 i = i + 1
+
+
+############ Not in class function
+def Convert_time(Times):
+    # convert array of times in hours from epoch to dates
+    return np.array([atmos_epoch + timedelta(hours = i) for i in Times])
+
+def sub2ind(array_shape, rows, cols):
+    return rows*array_shape[1] + cols
+
+def ind2sub(array_shape, ind):
+    rows = (ind.astype('int') / array_shape[1])
+    cols = (ind.astype('int') % array_shape[1]) # or numpy.mod(ind.astype('int'), array_shape[1])
+    return (rows, cols)
