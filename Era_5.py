@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T16:44:23+01:00
+# @Last modified time: 2020-11-02T16:47:11+01:00
 
 import cdsapi
 import os
@@ -138,7 +138,7 @@ class Wind_data:
                 self.latitude = file_temp.variables['latitude'][:]
                 self.longitudes = file_temp.variables['longitude'][:]
 
-        self.Uwind, self.Vwind = np.array(Uwind), np.array(Uwind)
+        self.Uwind, self.Vwind = np.array(self.Uwind), np.array(self.Uwind)
         self.time = Convert_time(self.time)
         self.Save_basic()
 
