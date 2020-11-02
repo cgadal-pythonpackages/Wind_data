@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T17:57:44+01:00
+# @Last modified time: 2020-11-02T17:59:14+01:00
 
 import cdsapi
 import os
@@ -222,7 +222,7 @@ class Wind_data:
     def Update_coordinates(self):
         LAT, LON = np.meshgrid(self.latitude, self.longitude)
         coordinates = np.array([LAT, LON]).T
-        self.coordinates = np.reshape(coordinates, (3*10, 2))
+        self.coordinates = np.reshape(coordinates, (self.latitude.size*self.longitude.size, 2))
 
     def Write_coordinates(self):
         np.savetxt('Coordinates.txt', self.coordinates, fmt='%+2.4f')
