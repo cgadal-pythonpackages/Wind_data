@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T15:57:17+01:00
+# @Last modified time: 2020-11-02T16:44:23+01:00
 
 import cdsapi
 import os
@@ -43,9 +43,10 @@ class Wind_data:
         self.type = type  # should be either reanalysis-era5-single-levels or 'reanalysis-era5-land' for now
         self.grid_bounds = None
         self.years = None
-        self.file_names = []
+        self.file_names = None
         self.coordinates = None
         self.grid = None
+        self.time = None
 
         ####### numpy arrays [3D arrays, x,y,t]
         self.Uwind = None
@@ -57,7 +58,7 @@ class Wind_data:
         self.Qstrength = None
         self.Qorientation = None
 
-    def Getting_wind_data(self,  variable_dic, Nsplit = 1, file = 'info.txt', save_to_npy = True, remove_netcdf = True):
+    def Getting_wind_data(self, variable_dic, Nsplit = 1, file = 'info.txt', save_to_npy = True, remove_netcdf = True):
         Nitems_max = 120000 if self.type == 'reanalysis-era5-single-levels' else 100000
         if Nsplit < 1:
             Nsplit = 1
@@ -103,6 +104,7 @@ class Wind_data:
             year_list = [list(map(str,j)) for j in np.array_split(dates, Nsplit)]
         #
         ####### Launching requests by year bins
+        self.file_names = []
         for years in year_list :
             string = years[0] + 'to' + years[-1]
             print(string)
@@ -125,6 +127,7 @@ class Wind_data:
     def Load_netcdf(self, name_files, save_to_npy = False):
         self.Uwind = []
         self.Vwind = []
+        self.time = []
         self.file_names = name_files
         for i, file in enumerate(name_files):
             file_temp = netcdf.NetCDFFile(file, 'r')
