@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T17:50:37+01:00
+# @Last modified time: 2020-11-02T17:52:38+01:00
 
 import cdsapi
 import os
@@ -131,8 +131,8 @@ class Wind_data:
         self.file_names = name_files
         for i, file in enumerate(name_files):
             file_temp = netcdf.NetCDFFile(file, 'r')
-            self.Uwind.append(np.moveaxis(file_temp.variables['u10'][:], 0, 1))
-            self.Vwind.append(np.moveaxis(file_temp.variables['u10'][:], 0, 1))
+            self.Uwind.append(np.moveaxis(file_temp.variables['u10'][:], 0, -1))
+            self.Vwind.append(np.moveaxis(file_temp.variables['u10'][:], 0, -1))
             self.time.append(file_temp.variables['time'][:])
             if i == 0:
                 self.latitude = file_temp.variables['latitude'][:]
@@ -201,7 +201,7 @@ class Wind_data:
 
 ########################### Small functions
     def Save_basic(self):
-        Pars_to_save = ['Uwind', 'Vwind', 'time', 'lon', 'lat']
+        Pars_to_save = ['Uwind', 'Vwind', 'time', 'longitude', 'latitude']
         self.Save_Data(Pars_to_save, 'Data.npy')
 
     def Save_Data(self, Pars_to_save, name):
