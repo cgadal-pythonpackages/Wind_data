@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T18:04:08+01:00
+# @Last modified time: 2020-11-03T11:18:02+01:00
 
 import cdsapi
 import os
@@ -140,6 +140,7 @@ class Wind_data:
             file_temp.close()
         #
         self.Uwind, self.Vwind, self.time = np.concatenate(self.Uwind, axis = -1), np.concatenate(self.Uwind, axis = -1), np.concatenate(self.time, axis = -1)
+        self.time = Convert_time(self.time)
         self.Save_basic()
 
     def Save_spec_to_txt(self, name):
