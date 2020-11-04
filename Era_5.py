@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-04T11:07:12+01:00
+# @Last modified time: 2020-11-04T11:43:42+01:00
 
 import cdsapi
 import os
@@ -132,7 +132,7 @@ class Wind_data:
         for i, file in enumerate(name_files):
             file_temp = netcdf.NetCDFFile(file, 'r')
             self.Uwind.append(np.moveaxis(np.copy(file_temp.variables['u10'][:]), 0, -1))
-            self.Vwind.append(np.moveaxis(np.copy(file_temp.variables['u10'][:]), 0, -1))
+            self.Vwind.append(np.moveaxis(np.copy(file_temp.variables['v10'][:]), 0, -1))
             self.time.append(np.copy(file_temp.variables['time'][:]))
             if i == 0:
                 self.latitude = np.copy(file_temp.variables['latitude'][:])
@@ -204,7 +204,9 @@ class Wind_data:
 ########################### Small functions
     def Save_basic(self):
         Pars_to_save = ['Uwind', 'Vwind', 'time', 'longitude', 'latitude']
-        self.Save_Data(Pars_to_save, 'Data.npy')
+        dates = str(self.time[0].year) + 'to' + str(self.time[-1].year)
+        name = Names[self.type] + dates + '_' + self.name + '.npy'
+        self.Save_Data(Pars_to_save, name)
 
     def Save_Data(self, Pars_to_save, name):
         sub_dir = { i: getattr(self, i) for i in Pars_to_save}
@@ -215,10 +217,6 @@ class Wind_data:
         for key in temp.keys():
             setattr(self, key, temp[key])
             temp[key] = None
-
-    def Load_Basic(self):
-        dic = 'Data.npy'
-        self.Load_Data(dic)
 
 ########################### Google earth functions
     def Update_coordinates(self):
