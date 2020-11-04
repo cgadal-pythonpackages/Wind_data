@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-03T11:19:45+01:00
+# @Last modified time: 2020-11-04T11:07:12+01:00
 
 import cdsapi
 import os
@@ -117,7 +117,7 @@ class Wind_data:
         self.Load_netcdf(self.file_names, save_to_npy = save_to_npy)
         if save_to_npy and remove_netcdf:
             for file in self.file_names:
-                os.rmdir(file)
+                os.remove(file)
         elif remove_netcdf and not save_to_npy:
             print('remove_netcdf is TRUE but save_to_npy is FALSE so data would be lost. Erasing canceled, netcdf files preserved.')
         #
