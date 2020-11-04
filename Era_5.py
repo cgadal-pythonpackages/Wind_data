@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-04T11:43:42+01:00
+# @Last modified time: 2020-11-04T16:22:54+01:00
 
 import cdsapi
 import os
@@ -105,7 +105,7 @@ class Wind_data:
         #
         ####### Launching requests by year bins
         self.file_names = []
-        for years in year_list :
+        for years in year_list:
             string = years[0] + 'to' + years[-1]
             print(string)
             self.file_names.append(Names[self.type] + string + '_' + self.name + '.netcdf')
@@ -130,7 +130,7 @@ class Wind_data:
         self.time = []
         self.file_names = name_files
         for i, file in enumerate(name_files):
-            file_temp = netcdf.NetCDFFile(file, 'r')
+            file_temp = netcdf.NetCDFFile(file, 'r', maskandscale = True)
             self.Uwind.append(np.moveaxis(np.copy(file_temp.variables['u10'][:]), 0, -1))
             self.Vwind.append(np.moveaxis(np.copy(file_temp.variables['v10'][:]), 0, -1))
             self.time.append(np.copy(file_temp.variables['time'][:]))
