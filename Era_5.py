@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-04T16:22:54+01:00
+# @Last modified time: 2020-11-05T11:34:16+01:00
 
 import cdsapi
 import os
@@ -29,7 +29,7 @@ def file_lenght(fname):
             pass
     return i + 1
 
-class Wind_data:
+    class Wind_data:
     """ Classe  définissant une donnée de vents. Elle est définie par:
     _ son nom (nom de la zone)
     _ les bornes de la grille (point Nord/Ouest, point Sud/Ouest)
@@ -139,7 +139,7 @@ class Wind_data:
                 self.longitude = np.copy(file_temp.variables['longitude'][:])
             file_temp.close()
         #
-        self.Uwind, self.Vwind, self.time = np.concatenate(self.Uwind, axis = -1), np.concatenate(self.Uwind, axis = -1), np.concatenate(self.time, axis = -1)
+        self.Uwind, self.Vwind, self.time = np.concatenate(self.Uwind, axis = -1), np.concatenate(self.Vwind, axis = -1), np.concatenate(self.time, axis = -1)
         self.time = Convert_time(self.time.astype(np.float64))
         self.Save_basic()
 
@@ -203,7 +203,7 @@ class Wind_data:
 
 ########################### Small functions
     def Save_basic(self):
-        Pars_to_save = ['Uwind', 'Vwind', 'time', 'longitude', 'latitude']
+        Pars_to_save = ['Uwind', 'Vwind', 'time', 'longitude', 'latitude', 'name', 'type', 'file_names']
         dates = str(self.time[0].year) + 'to' + str(self.time[-1].year)
         name = Names[self.type] + dates + '_' + self.name + '.npy'
         self.Save_Data(Pars_to_save, name)
