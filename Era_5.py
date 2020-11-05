@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-05T14:27:00+01:00
+# @Last modified time: 2020-11-05T14:28:08+01:00
 
 import cdsapi
 import os
@@ -30,13 +30,13 @@ def file_lenght(fname):
     return i + 1
 
 class Wind_data:
-""" Classe  définissant une donnée de vents. Elle est définie par:
-_ son nom (nom de la zone)
-_ les bornes de la grille (point Nord/Ouest, point Sud/Ouest)
-_ les coordonnées de chaque point de la grille
-_ les données de vents temporelles (U et V)
-_ date de début et date de fin de la forme AAAA/MM/JJ
-"""
+    """ Classe  définissant une donnée de vents. Elle est définie par:
+    _ son nom (nom de la zone)
+    _ les bornes de la grille (point Nord/Ouest, point Sud/Ouest)
+    _ les coordonnées de chaque point de la grille
+    _ les données de vents temporelles (U et V)
+    _ date de début et date de fin de la forme AAAA/MM/JJ
+    """
 
     def __init__(self, name, type = 'reanalysis-era5-single-levels'):
         self.name = name
