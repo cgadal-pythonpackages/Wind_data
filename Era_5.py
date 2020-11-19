@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-19T14:36:13+01:00
+# @Last modified time: 2020-11-19T14:47:34+01:00
 
 import cdsapi
 import os
@@ -80,8 +80,8 @@ class Wind_data:
         self.years = [[dates.min(),1,1], [dates.max(),12,31]]
         #
         ### Puting the required area on the ERA5 grid
+        area_wanted = variable_dic['area']
         if on_grid:
-            area_wanted = variable_dic['area']
             area_wanted[0] = area_wanted[0] - float(Decimal(str(area_wanted[0] - area_ref[0]))%Decimal(str(self.grid)))
             area_wanted[1] = area_wanted[1] - float(Decimal(str(area_wanted[1] - area_ref[1]))%Decimal(str(self.grid)))
             area_wanted[2] = area_wanted[2] - float(Decimal(str(area_wanted[2] - area_ref[0]))%Decimal(str(self.grid)))
