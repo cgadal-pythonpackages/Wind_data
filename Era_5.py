@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-05T14:28:08+01:00
+# @Last modified time: 2020-11-19T14:36:13+01:00
 
 import cdsapi
 import os
@@ -58,7 +58,7 @@ class Wind_data:
         self.Qstrength = None
         self.Qorientation = None
 
-    def Getting_wind_data(self, variable_dic, Nsplit = 1, file = 'info.txt', save_to_npy = True, remove_netcdf = True):
+    def Getting_wind_data(self, variable_dic, Nsplit = 1, file = 'info.txt', save_to_npy = True, remove_netcdf = True, on_grid = True):
         Nitems_max = 120000 if self.type == 'reanalysis-era5-single-levels' else 100000
         if Nsplit < 1:
             Nsplit = 1
@@ -80,14 +80,15 @@ class Wind_data:
         self.years = [[dates.min(),1,1], [dates.max(),12,31]]
         #
         ### Puting the required area on the ERA5 grid
-        area_wanted = variable_dic['area']
-        area_wanted[0] = area_wanted[0] - float(Decimal(str(area_wanted[0] - area_ref[0]))%Decimal(str(self.grid)))
-        area_wanted[1] = area_wanted[1] - float(Decimal(str(area_wanted[1] - area_ref[1]))%Decimal(str(self.grid)))
-        area_wanted[2] = area_wanted[2] - float(Decimal(str(area_wanted[2] - area_ref[0]))%Decimal(str(self.grid)))
-        area_wanted[3] = area_wanted[3] - float(Decimal(str(area_wanted[3] - area_ref[1]))%Decimal(str(self.grid)))
-        #
-        ## updating dic and class obj
-        variable_dic['area'] = area_wanted
+        if on_grid:
+            area_wanted = variable_dic['area']
+            area_wanted[0] = area_wanted[0] - float(Decimal(str(area_wanted[0] - area_ref[0]))%Decimal(str(self.grid)))
+            area_wanted[1] = area_wanted[1] - float(Decimal(str(area_wanted[1] - area_ref[1]))%Decimal(str(self.grid)))
+            area_wanted[2] = area_wanted[2] - float(Decimal(str(area_wanted[2] - area_ref[0]))%Decimal(str(self.grid)))
+            area_wanted[3] = area_wanted[3] - float(Decimal(str(area_wanted[3] - area_ref[1]))%Decimal(str(self.grid)))
+            #
+            ## updating dic and class obj
+            variable_dic['area'] = area_wanted
         self.grid_bounds = area_wanted
         # self.latitude = np.linspace(self.grid_bounds[0], self.grid_bounds[2], int(round(abs(self.grid_bounds[0] - self.grid_bounds[2])/self.grid + 1, 2)))
         # self.longitude = np.linspace(self.grid_bounds[1], self.grid_bounds[3], int(round(abs(self.grid_bounds[1] - self.grid_bounds[3])/self.grid + 1, 2)))

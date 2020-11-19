@@ -2,7 +2,7 @@
 # @Date:   2018-12-11T14:18:01+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-02T15:54:52+01:00
+# @Last modified time: 2020-11-13T10:19:22+01:00
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -123,7 +123,8 @@ def PDF_flux(direction, qs):
 def Make_angular_PDF(angles, weight):
     bin_edges = np.linspace(0, 360, 361)
     hist = histogram(angles, bins = bin_edges, density = 1, weights = weight, axis = -1)
-    return hist, bin_edges
+    bin_centers = bin_edges[1:] - (bin_edges[1] - bin_edges[0])/2
+    return hist, bin_centers
 
 def Make_threshold_distribution(direction, r):
     bin_edges = np.linspace(0, 360, 361)
