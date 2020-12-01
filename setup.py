@@ -2,7 +2,7 @@
 # @Date:   2020-12-01T12:00:30+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-12-01T12:32:25+01:00
+# @Last modified time: 2020-12-01T13:03:13+01:00
 
 from setuptools import setup, find_packages
 
@@ -16,8 +16,10 @@ setup(name='Wind_data',
       author_email='gadal@ipgp.fr',
       include_package_data=True,
       license='GNU',
-      packages=find_packages(),
+      packages=['Wind_data'],
+      package_data={'Wind_data': ['src/*.kml']},
       zip_safe=False,
+      python_requires='>=3',
       install_requires=[
         "numpy", "matplotlib", "cdsapi", "os", "itertools", "decimal", "scipy", "datetime", "windrose", "functools",
     ])
