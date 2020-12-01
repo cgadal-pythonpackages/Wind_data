@@ -8,7 +8,7 @@ As the data are downloaded through the Climate Data Store API, you need to follo
 
 - create an account [here](https://cds.climate.copernicus.eu/user/register?destination=%2F%23!%2Fhome), and log in.
 - setup the API key on your computer: see [here](https://cds.climate.copernicus.eu/api-how-to)
-- install the lib on your computer: As for most python package, use pip. In a terminal run `pip3 install --upgrade https://github.com/Cgadal/Wind_data/tarball/master`. If you also have `git` installed on your computer, you may prefer to use: `pip install git+https://github.com/Cgadal/Wind_data.git`.
+- install the lib on your computer: As for most python package, use pip. In a terminal run `pip3 install --upgrade https://github.com/Cgadal/Wind_data/tarball/master`. If you also have `git` installed on your computer, you may prefer to use: `pip3 install git+https://github.com/Cgadal/Wind_data.git`.
 
 General documentation can be found on the ECMWWF website, for [ERA5](https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era5) and [ERA5Land](https://www.ecmwf.int/en/era5-land).
 
