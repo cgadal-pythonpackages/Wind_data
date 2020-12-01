@@ -1,6 +1,0 @@
-cdsapi
-datetime
-matplotlib
-numpy
-scipy
-windrose
