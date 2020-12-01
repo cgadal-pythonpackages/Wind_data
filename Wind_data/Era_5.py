@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-12-01T15:49:44+01:00
+# @Last modified time: 2020-12-01T16:46:59+01:00
 
 import cdsapi
 import os
@@ -15,6 +15,7 @@ from itertools import islice
 from decimal import Decimal
 from scipy.io import netcdf
 from datetime import datetime, timezone, timedelta
+import json
 
 area_ref = [0, 0]
 Names = {'reanalysis-era5-single-levels': 'ERA5', 'reanalysis-era5-land': 'ERA5Land'}
@@ -147,12 +148,12 @@ class Wind_data:
 
     def Save_spec_to_txt(self, name):
         Pars_to_save = ['name', 'type', 'years', 'latitude', 'longitude', 'file_names']
-        sub_dir = { i: getattr(self, i) for i in Pars_to_save}
+        dic_attr = { i: getattr(self, i) for i in Pars_to_save}
         if os.path.isfile(name):
             print(name + ' already exists')
         else:
             with open(name,"w") as f:
-                f.write(str(dict))
+                f.write(str(dic_attr))
 
     def load_spec(self, name):
         with open(name,'r') as inf:

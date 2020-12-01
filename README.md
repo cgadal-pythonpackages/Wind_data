@@ -16,6 +16,8 @@ Note that I am quite unsure on how this is going to work on other O.S. than Linu
 
 ## Quick example
 
+### Script
+
 ```python
 import Wind_data.Era_5 as Era5
 import numpy as np
@@ -50,9 +52,6 @@ Test.Write_coordinates()
 Test.Create_KMZ()
 ##
 ```
-
-## Usefull details
-
 ### Optional keywords
 
 The functions have plenty of optional keywords, I will write a documentation as soon as possible. In the mean time, here is a list of usefull keywords in `Getting_wind_data()` to play with.
@@ -66,3 +65,37 @@ The functions have plenty of optional keywords, I will write a documentation as 
 ### Differences between datasets
 
 The different datasets have differences in the `variable_dic` passed to `Test.Getting_wind_data()`. In particular, for the `'reanalysis-era5-land'` dataset, you need to remove the entry `'product_type':'reanalysis'`. More details can be found on the original documentation of the CDSAPI.
+
+
+## Treatment of the wind data
+
+For now, the library also integrates a few functions to calculate sand fluxes from the 10 velocity, depending on several parameters. What comes next are typical commands that may follow the Quick example presented above.
+
+### Script
+
+```python
+############### This part is only needed if you run what follows in a different script
+
+# import Wind_data.Era_5 as Era5
+# import numpy as np
+#
+# ########### CReating wind data object
+# Test = Era5.Wind_data('test_place', type = 'reanalysis-era5-single-levels') ## create the python object
+# Test.load_spec()                                                            ## Load spec previously saved in 'info.txt' (or another file you might have chosen)
+
+############## Otherwise just append this to the first script 'Quick example'
+
+## Load the netcdf files (whose names are stored in Test.file_names.)
+Test.Load_netcdf(Test.file_names, save_to_npy = False)
+
+## Convert velocities to polar coordinates
+Test.Cartesian_to_polar()
+
+## Calculate sand fluxes.
+# Optional keywords are the grain diameter [m] (grain_size = 180*10**-6), hydro. roughness [m] (z_0 = 1e-3), height of wind data [m] (z = 10), air density (rhoair = 1.293), grain density (rhosed = 2.55e3).
+Test.Calculate_fluxes()
+
+## Plot wind roses and flux roses
+Test.Write_wind_rose('wind_roses')
+Test.Write_flux_rose('flux_roses')
+```
