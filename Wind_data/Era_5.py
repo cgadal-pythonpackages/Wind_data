@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-11-19T14:47:34+01:00
+# @Last modified time: 2020-12-01T14:19:22+01:00
 
 import cdsapi
 import os
@@ -58,7 +58,7 @@ class Wind_data:
         self.Qstrength = None
         self.Qorientation = None
 
-    def Getting_wind_data(self, variable_dic, Nsplit = 1, file = 'info.txt', save_to_npy = True, remove_netcdf = True, on_grid = True):
+    def Getting_wind_data(self, variable_dic, Nsplit = 1, file = 'info.txt', save_to_npy = True, remove_netcdf = False, on_grid = True):
         Nitems_max = 120000 if self.type == 'reanalysis-era5-single-levels' else 100000
         if Nsplit < 1:
             Nsplit = 1
@@ -115,12 +115,13 @@ class Wind_data:
             c.retrieve(self.type, variable_dic, self.file_names[-1])
         #
         ##
-        self.Load_netcdf(self.file_names, save_to_npy = save_to_npy)
         if save_to_npy and remove_netcdf:
             for file in self.file_names:
                 os.remove(file)
         elif remove_netcdf and not save_to_npy:
             print('remove_netcdf is TRUE but save_to_npy is FALSE so data would be lost. Erasing canceled, netcdf files preserved.')
+        elif save_to_npy:
+            self.Load_netcdf(self.file_names, save_to_npy = save_to_npy)
         #
         #### Writing informations to spec file
         self.Save_spec_to_txt(file)
