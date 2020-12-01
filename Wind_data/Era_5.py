@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-12-01T16:54:24+01:00
+# @Last modified time: 2020-12-01T17:02:11+01:00
 
 import cdsapi
 import os
@@ -161,12 +161,9 @@ class Wind_data:
         with open(name,'r') as inf:
             dict_from_file = eval(inf.read())
         for key in dict_from_file.keys():
-            setattr(self, key, temp[key])
-            temp[key] = None
+            setattr(self, key, dict_from_file[key])
         if 'type' not in dict_from_file.keys():
             self.type = 'reanalysis-era5-single-levels'
-        else:
-            self.type = 'reanalysis-era5-land'
 
     def Extract_points(points, file_format = 'npy', system_coordinates = 'cartesian'):
         ######## function to extract specific points and write (u, v) velocity to <format> files
