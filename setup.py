@@ -2,7 +2,7 @@
 # @Date:   2020-12-01T12:00:30+01:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-12-01T13:07:19+01:00
+# @Last modified time: 2020-12-01T13:18:54+01:00
 
 from setuptools import setup, find_packages
 
@@ -21,5 +21,5 @@ setup(name='Wind_data',
       zip_safe=False,
       python_requires='>=3',
       install_requires=[
-        "numpy", "matplotlib", "cdsapi", "os", "itertools", "decimal", "scipy", "datetime", "windrose", "functools",
+        "numpy", "matplotlib", "cdsapi", "os", "itertools", "scipy", "datetime", "windrose", "functools",
     ])
