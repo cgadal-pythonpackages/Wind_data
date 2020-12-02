@@ -7,7 +7,7 @@ For now, it is oriented to download data from the 'reanalysis-era5-single-levels
 As the data are downloaded through the Climate Data Store API, you need to follow a few steps:
 
 - create an account [here](https://cds.climate.copernicus.eu/user/register?destination=%2F%23!%2Fhome), and log in.
-- setup the API key on your computer: see [here](https://cds.climate.copernicus.eu/api-how-to)
+- setup the API key on your computer: see [here](https://cds.climate.copernicus.eu/api-how-to) (just follow the steps under `Install the CDS API key`)
 - install the lib on your computer: As for most python package, use pip. In a terminal run `pip3 install --upgrade https://github.com/Cgadal/Wind_data/tarball/master`. If you also have `git` installed on your computer, you may prefer to use: `pip3 install git+https://github.com/Cgadal/Wind_data.git`.
 
 General documentation can be found on the ECMWWF website, for [ERA5](https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era5) and [ERA5Land](https://www.ecmwf.int/en/era5-land).
@@ -54,7 +54,7 @@ Test.Create_KMZ()
 ```
 ### Optional keywords
 
-The functions have plenty of optional keywords, I will write a documentation as soon as possible. In the mean time, here is a list of usefull keywords in `Getting_wind_data()` to play with.
+The functions have plenty of optional keywords, I will write a documentation as soon as possible. In the mean time, here is a list of usefull keywords in `Test.Getting_wind_data()` to play with.
 
 - `save_to_npy = True`: if you want to convert netcdf files to .npy files. `True` is only supported for 10m velocities. Default is True.
 - `on_grid = True`: if you want to have the spacial points given moved to correspond to the original grid of the downloaded dataset. Default it True.
