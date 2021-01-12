@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2020-12-01T17:02:11+01:00
+# @Last modified time: 2021-01-12T11:23:45+01:00
 
 import cdsapi
 import os
@@ -101,7 +101,7 @@ class Wind_data:
         ##### checking the Nitems for every Nsplit
         Nitems_list = np.array([len(variable_dic['variable']) * (365.25 * len(variable_dic['month'])/12 * len(variable_dic['day'])/31)*len(variable_dic['time']) * len(i)
                         for i in year_list])
-        if (Nitems_list > 120000).any():
+        if (Nitems_list > Nitems_max).any():
             Nsplit = Nsplit + 1
             year_list = [list(map(str,j)) for j in np.array_split(dates, Nsplit)]
         #
