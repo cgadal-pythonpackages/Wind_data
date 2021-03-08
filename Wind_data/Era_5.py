@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2021-03-08T17:56:15+01:00
+# @Last modified time: 2021-03-08T22:23:27+01:00
 
 import cdsapi
 import os
@@ -148,7 +148,7 @@ class Wind_data:
         self.Save_basic()
 
     def Save_spec_to_txt(self, name):
-        Pars_to_save = ['name', 'type', 'years', 'latitude', 'longitude', 'file_names']
+        Pars_to_save = ['name', 'type', 'years', 'file_names']
         dic_attr = { i: getattr(self, i) for i in Pars_to_save}
         dic_attr['latitude'] = list(dic_attr['latitude'])
         dic_attr['longitude'] = list(dic_attr['longitude'])
