@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2021-01-12T11:23:45+01:00
+# @Last modified time: 2021-03-08T17:56:15+01:00
 
 import cdsapi
 import os
@@ -18,7 +18,7 @@ from datetime import datetime, timezone, timedelta
 import json
 
 area_ref = [0, 0]
-Names = {'reanalysis-era5-single-levels': 'ERA5', 'reanalysis-era5-land': 'ERA5Land'}
+Names = {'reanalysis-era5-single-levels': 'ERA5', 'reanalysis-era5-land': 'ERA5Land', 'reanalysis-era5-pressure-levels': 'ERA5pressure_level'}
 atmos_epoch = datetime(1900, 1, 1, 0, 0, tzinfo=timezone.utc)
 
 def format_time(date):
@@ -60,7 +60,8 @@ class Wind_data:
         self.Qorientation = None
 
     def Getting_wind_data(self, variable_dic, Nsplit = 1, file = 'info.txt', save_to_npy = True, remove_netcdf = False, on_grid = True):
-        Nitems_max = 120000 if self.type == 'reanalysis-era5-single-levels' else 100000
+        # Nitems_max = 120000 if self.type == 'reanalysis-era5-single-levels' else 100000
+        Nitems_max = 100000 if self.type == 'reanalysis-era5-land' else 120000
         if Nsplit < 1:
             Nsplit = 1
         Nitems = len(variable_dic['variable']) * (365.25 * len(variable_dic['month'])/12 * len(variable_dic['day'])/31) \
