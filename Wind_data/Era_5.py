@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2021-03-30T10:36:29+02:00
+# @Last modified time: 2021-03-30T10:45:30+02:00
 
 import cdsapi
 import os
@@ -70,7 +70,6 @@ class Wind_data:
         if Nitems/Nsplit > Nitems_max:
             Nsplit = ceil(Nitems/Nitems_max)
             print('Request too large. Setting Nsplit =', Nsplit)
-
 
         if self.grid is None:
             if 'grid' in variable_dic.keys():
