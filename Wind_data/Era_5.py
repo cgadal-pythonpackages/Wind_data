@@ -2,7 +2,7 @@
 # @Date:   2019-05-21T18:44:14+02:00
 # @Email:  gadal@ipgp.fr
 # @Last modified by:   gadal
-# @Last modified time: 2021-03-09T01:18:28+01:00
+# @Last modified time: 2021-03-30T10:36:29+02:00
 
 import cdsapi
 import os
@@ -16,6 +16,7 @@ from decimal import Decimal
 from scipy.io import netcdf
 from datetime import datetime, timezone, timedelta
 import json
+from math import ceil
 
 area_ref = [0, 0]
 Names = {'reanalysis-era5-single-levels': 'ERA5', 'reanalysis-era5-land': 'ERA5Land', 'reanalysis-era5-pressure-levels': 'ERA5pressure_level'}
@@ -67,8 +68,9 @@ class Wind_data:
         Nitems = len(variable_dic['variable']) * (365.25 * len(variable_dic['month'])/12 * len(variable_dic['day'])/31) \
         * len(variable_dic['time']) * len(variable_dic['year'])
         if Nitems/Nsplit > Nitems_max:
-            Nsplit = round(Nitems/Nitems_max) + 1
+            Nsplit = ceil(Nitems/Nitems_max)
             print('Request too large. Setting Nsplit =', Nsplit)
+
 
         if self.grid is None:
             if 'grid' in variable_dic.keys():
